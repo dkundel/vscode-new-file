@@ -2,6 +2,7 @@
 # Advanced New File - Visual Studio Code Extension
 
 Making the creation of a new file even easier. Specify the name of the file on creation and if you define a path that doesn't exist yet the folders will be created.
+Before using the extension please make sure to read the [Disclaimer](#Disclaimer).
 
 > Inspired by [Scott Kuroda]()'s [AdvancedNewFile](https://github.com/skuroda/Sublime-AdvancedNewFile) for Sublime.
 
@@ -33,7 +34,14 @@ code .
 
 # Backlog
 
-  - Add UTs
+  - Add additional tests
+
+# Disclaimer
+
+**Important:** This extension due to the nature of it's purpose will create
+files on your hard drive and if necessary create the respective folder structure.
+While it should not override any files during this process, I'm not giving any guarantees
+or take any responsibility in case of lost data. 
 
 # Contributors
 

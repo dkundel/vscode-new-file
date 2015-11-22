@@ -10,6 +10,18 @@
     },
     "mkdirp/mkdirp.d.ts": {
       "commit": "0ea013a775ce1fb90c5e41b255e1d038714ffbe5"
+    },
+    "expect.js/expect.js.d.ts": {
+      "commit": "fa04c80f4a889613b96cb4f283848c61a9f64233"
+    },
+    "sinon/sinon.d.ts": {
+      "commit": "fa04c80f4a889613b96cb4f283848c61a9f64233"
+    },
+    "mockery/mockery.d.ts": {
+      "commit": "fa04c80f4a889613b96cb4f283848c61a9f64233"
+    },
+    "rimraf/rimraf.d.ts": {
+      "commit": "fa04c80f4a889613b96cb4f283848c61a9f64233"
     }
   }
 }
