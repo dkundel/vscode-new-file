@@ -1,0 +1,57 @@
+{
+  "name": "vscode-new-file",
+  "displayName": "Advanced New File",
+  "description": "An easier way of creating a new file inside a project.",
+  "version": "0.0.1",
+  "icon": "images/logo-300x.png",
+  "galleryBanner": {
+    "color": "#eeeeee",
+    "theme": "light"
+  },
+  "license": "MIT",
+  "publisher": "dkundel",
+  "engines": {
+    "vscode": "^0.10.1"
+  },
+  "categories": [
+    "Other"
+  ],
+  "bugs": {
+    "url": "https://github.com/dkundel/vscode-new-file/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dkundel/vscode-new-file.git"    
+  },
+  "activationEvents": [
+    "onCommand:extension.createNewFile"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.createNewFile",
+        "title": "Files: Advanced New File"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.createNewFile",
+        "key": "alt+ctrl+n",
+        "mac": "alt+cmd+n"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
+  },
+  "devDependencies": {
+    "typescript": "^1.6.2",
+    "vscode": "0.10.x"
+  },
+  "dependencies": {
+    "mkdirp": "^0.5.1",
+    "q": "^1.4.1"
+  }
+}
