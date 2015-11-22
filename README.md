@@ -8,6 +8,8 @@ Before using the extension please make sure to read the [Disclaimer](#Disclaimer
 
 # How to use 
 
+![demo](images/demo.gif)
+
 1. Press the Shortcut <kbd>Cmd+Alt+N</kbd> or run the `Files: Advanced New File` command.
 
 2. Enter a relative file path or stick with the default. If you have a file open it will guess the extension based on the current extension.

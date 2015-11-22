@@ -29,9 +29,8 @@ export function activate(context: ExtensionContext) {
 }
 
 export class FileController {
-  
   public showFileNameDialog(): Q.Promise<string> {
-    const currentFileName: string = window.activeTextEditor.document.fileName;
+    const currentFileName: string = window.activeTextEditor ? window.activeTextEditor.document.fileName : '';
     const ext: string = path.extname(currentFileName) || '.ts';
     const deferred: Q.Deferred<string> = Q.defer<string>();
     
@@ -55,10 +54,7 @@ export class FileController {
     let fileExists: boolean = fs.existsSync(newFileName);
     
     if (!fileExists) {
-      let err: string = mkdirp.sync(dirname);
-      if (err) {
-        deferred.reject(err);
-      }
+      mkdirp.sync(dirname);
       
       fs.appendFile(newFileName, '', (err) => {
         if (err) {
