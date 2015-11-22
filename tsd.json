@@ -14,9 +14,6 @@
     "expect.js/expect.js.d.ts": {
       "commit": "fa04c80f4a889613b96cb4f283848c61a9f64233"
     },
-    "sinon/sinon.d.ts": {
-      "commit": "fa04c80f4a889613b96cb4f283848c61a9f64233"
-    },
     "mockery/mockery.d.ts": {
       "commit": "fa04c80f4a889613b96cb4f283848c61a9f64233"
     },
