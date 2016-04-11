@@ -5,13 +5,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as Q from 'q';
 import * as mkdirp from 'mkdirp';
-import { homedir } from 'os';
 
 export function activate(context: ExtensionContext) {
 
-	console.log('Your extension "vscode-new-file" is now active!');
+  console.log('Your extension "vscode-new-file" is now active!');
 
-	let disposable = commands.registerCommand('extension.createNewFile', () => {
+  let disposable = commands.registerCommand('extension.createNewFile', () => {
 
     const File = new FileController();
 
@@ -24,9 +23,9 @@ export function activate(context: ExtensionContext) {
           window.showErrorMessage(err);
         }
       });
-	});
+  });
 
-	context.subscriptions.push(disposable);
+  context.subscriptions.push(disposable);
 }
 
 export class FileController {
@@ -111,7 +110,7 @@ export class FileController {
       return deferred.promise;
     }
 
-    const homePath: string = homedir();
+    const homePath: string = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
     let suggestedPath: string = path.join(homePath, filePath);
 
     const options: QuickPickOptions = {
