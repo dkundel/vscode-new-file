@@ -98,7 +98,11 @@ export class FileController {
     const isUntitled: boolean = window.activeTextEditor.document.isUntitled;
 
     if (filePath.indexOf('/') === '/') {
-      deferred.resolve(filePath);
+      if (root) {
+        deferred.resolve(path.join(root, filePath));
+      } else {
+        deferred.resolve(filePath);
+      }  
       return deferred.promise;
     }
 
