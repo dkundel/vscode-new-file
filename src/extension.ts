@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as Q from 'q';
 import * as mkdirp from 'mkdirp';
+import { homedir } from 'os';
 
 export function activate(context: ExtensionContext) {
 
@@ -93,19 +94,25 @@ export class FileController {
 
   public determineFullPath(filePath) {
     const deferred: Q.Deferred<string> = Q.defer<string>();
-    const root: string = workspace.rootPath;
+    const root: string = window.activeTextEditor.document.fileName;
+    const isUntitled: boolean = window.activeTextEditor.document.isUntitled;
 
-    if (root) {
-      deferred.resolve(path.join(root, filePath))
+    if (filePath.indexOf('/') === '/') {
+      deferred.resolve(filePath);
       return deferred.promise;
     }
 
-    const homePath: string = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+    if (root && !isUntitled) {
+      deferred.resolve(path.join(root, '..', filePath))
+      return deferred.promise;
+    }
+
+    const homePath: string = homedir();
     let suggestedPath: string = path.join(homePath, filePath);
 
     const options: QuickPickOptions = {
       matchOnDescription: true,
-      placeHolder: "You don't have a project open. Should we use your home path?"
+      placeHolder: "You don't have a file open. Should we use your home path?"
     };
 
     const choices: QuickPickItem[] = [
