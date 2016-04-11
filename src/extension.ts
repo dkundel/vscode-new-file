@@ -36,7 +36,7 @@ export class FileController {
     const deferred: Q.Deferred<string> = Q.defer<string>();
 
     window.showInputBox({
-      prompt: 'What\'s the path and name of the new file?',
+      prompt: 'What\'s the path and name of the new file? (Relative to current file)',
       value: `newFile${ext}`
     }).then((relativeFilePath) => {
       if (relativeFilePath) {
