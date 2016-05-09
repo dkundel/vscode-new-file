@@ -5,13 +5,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as Q from 'q';
 import * as mkdirp from 'mkdirp';
-import { homedir } from 'os';
 
 export function activate(context: ExtensionContext) {
 
-	console.log('Your extension "vscode-new-file" is now active!');
+  console.log('Your extension "vscode-new-file" is now active!');
 
-	let disposable = commands.registerCommand('extension.createNewFile', () => {
+  let disposable = commands.registerCommand('extension.createNewFile', () => {
 
     const File = new FileController();
 
@@ -24,15 +23,15 @@ export function activate(context: ExtensionContext) {
           window.showErrorMessage(err);
         }
       });
-	});
+  });
 
-	context.subscriptions.push(disposable);
+  context.subscriptions.push(disposable);
 }
 
 export class FileController {
   public getDefaultFileName(): string {
     if (!window.activeTextEditor) {
-      return path.join(homedir(), 'newFile.ts');
+      return path.join(this.homedir(), 'newFile.ts');
     }
     
     const currentFileName: string = window.activeTextEditor ? window.activeTextEditor.document.fileName : '';
@@ -104,7 +103,7 @@ export class FileController {
 
   public determineFullPath(filePath): Q.Promise<string> {
     const deferred: Q.Deferred<string> = Q.defer<string>();
-    const homePath: string = homedir();
+    const homePath: string = this.homedir();
     let suggestedPath: string = path.join(homePath, filePath);
     const root: string = window.activeTextEditor ? window.activeTextEditor.document.fileName : suggestedPath;
     const isUntitled: boolean = window.activeTextEditor ? window.activeTextEditor.document.isUntitled : true;
@@ -118,7 +117,7 @@ export class FileController {
       deferred.resolve(path.join(path.dirname(root), filePath))
       return deferred.promise;
     }
-
+    
     const options: QuickPickOptions = {
       matchOnDescription: true,
       placeHolder: "You don't have a file open. Should we use your home path?"
@@ -154,5 +153,9 @@ export class FileController {
     });
 
     return deferred.promise;
+  }
+  
+  private homedir(): string {
+    return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
   }
 }

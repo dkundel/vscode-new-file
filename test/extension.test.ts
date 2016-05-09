@@ -1,6 +1,5 @@
 /// <reference path="../typings/tsd.d.ts" />
 
-import * as sinon from 'sinon';
 require('expect.js');
 
 import * as vscode from 'vscode';
