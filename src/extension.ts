@@ -30,14 +30,24 @@ export function activate(context: ExtensionContext) {
 }
 
 export class FileController {
-  public showFileNameDialog(): Q.Promise<string> {
+  public getDefaultFileName(): string {
+    if (!window.activeTextEditor) {
+      return path.join(homedir(), 'newFile.ts');
+    }
+    
     const currentFileName: string = window.activeTextEditor ? window.activeTextEditor.document.fileName : '';
     const ext: string = path.extname(currentFileName) || '.ts';
+    const filePath: string = path.dirname(currentFileName);
+    
+    return path.join(filePath, `newFile${ext}`);
+  }
+  
+  public showFileNameDialog(): Q.Promise<string> {
     const deferred: Q.Deferred<string> = Q.defer<string>();
 
     window.showInputBox({
       prompt: 'What\'s the path and name of the new file? (Relative to current file)',
-      value: `newFile${ext}`
+      value: this.getDefaultFileName()
     }).then((relativeFilePath) => {
       if (relativeFilePath) {
         deferred.resolve(relativeFilePath);
@@ -92,27 +102,22 @@ export class FileController {
     return deferred.promise;
   }
 
-  public determineFullPath(filePath) {
+  public determineFullPath(filePath): Q.Promise<string> {
     const deferred: Q.Deferred<string> = Q.defer<string>();
-    const root: string = window.activeTextEditor.document.fileName;
-    const isUntitled: boolean = window.activeTextEditor.document.isUntitled;
+    const homePath: string = homedir();
+    let suggestedPath: string = path.join(homePath, filePath);
+    const root: string = window.activeTextEditor ? window.activeTextEditor.document.fileName : suggestedPath;
+    const isUntitled: boolean = window.activeTextEditor ? window.activeTextEditor.document.isUntitled : true;
 
-    if (filePath.indexOf('/') === '/') {
-      if (root) {
-        deferred.resolve(path.join(root, filePath));
-      } else {
-        deferred.resolve(filePath);
-      }  
+    if (filePath.indexOf('/') === 0 || filePath.indexOf('~') === 0) {
+      deferred.resolve(filePath);
       return deferred.promise;
     }
 
     if (root && !isUntitled) {
-      deferred.resolve(path.join(root, '..', filePath))
+      deferred.resolve(path.join(path.dirname(root), filePath))
       return deferred.promise;
     }
-
-    const homePath: string = homedir();
-    let suggestedPath: string = path.join(homePath, filePath);
 
     const options: QuickPickOptions = {
       matchOnDescription: true,
