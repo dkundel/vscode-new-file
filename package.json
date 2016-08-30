@@ -28,6 +28,37 @@
   ],
   "main": "./out/src/extension",
   "contributes": {
+    "configuration": {
+      "title": "New File Extension Configuration",
+      "type": "object",
+      "properties": {
+        "newFile.showFullPath": {
+          "type": "boolean",
+          "default": true,
+          "description": "Shows the full path as an initial value in the text box for the path."
+        },
+        "newFile.relativeToProject": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether the entered path should be treated relative to the existing project. If set to 'false' it will use the 'rootDirectory' setting."
+        },
+        "newFile.rootDirectory": {
+          "type": "string",
+          "default": null,
+          "description": "Only used when relativeToProject is set to 'false'. Used as the root for creating new files."
+        },
+        "newFile.defaultFileExtension": {
+          "type": "string",
+          "default": ".ts",
+          "description": "Default file extension to be used when no file is open."
+        },
+        "newFile.defaultBaseFileName": {
+          "type": "string",
+          "default": "newFile",
+          "description": "Default base file name."
+        }
+      }
+    },
     "commands": [
       {
         "command": "extension.createNewFile",
