@@ -1,91 +1,91 @@
 {
-  "name": "vscode-new-file",
-  "displayName": "Advanced New File",
-  "description": "An easier way of creating a new file inside a project.",
-  "version": "0.1.1",
-  "icon": "images/logo-300x.png",
-  "galleryBanner": {
-    "color": "#eeeeee",
-    "theme": "light"
-  },
-  "license": "MIT",
-  "publisher": "dkundel",
-  "engines": {
-    "vscode": "^0.10.1"
-  },
-  "categories": [
-    "Other"
-  ],
-  "bugs": {
-    "url": "https://github.com/dkundel/vscode-new-file/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dkundel/vscode-new-file.git"
-  },
-  "activationEvents": [
-    "onCommand:extension.createNewFile"
-  ],
-  "main": "./out/src/extension",
-  "contributes": {
-    "configuration": {
-      "title": "New File Extension Configuration",
-      "type": "object",
-      "properties": {
-        "newFile.showFullPath": {
-          "type": "boolean",
-          "default": true,
-          "description": "Shows the full path as an initial value in the text box for the path."
-        },
-        "newFile.relativeTo": {
-          "type": "string",
-          "default": "file",
-          "description": "Whether the entered path should be treated relative to the existing 'project', the currently selected 'file' or specified 'root'. If set to 'root' you need to set the 'rootDirectory' setting."
-        },
-        "newFile.rootDirectory": {
-          "type": "string",
-          "default": "~",
-          "description": "Only used when 'relativeTo' is set to 'root'. Used as the root for creating new files."
-        },
-        "newFile.defaultFileExtension": {
-          "type": "string",
-          "default": ".ts",
-          "description": "Default file extension to be used when no file is open."
-        },
-        "newFile.defaultBaseFileName": {
-          "type": "string",
-          "default": "newFile",
-          "description": "Default base file name."
-        }
-      }
+    "name": "vscode-new-file",
+    "displayName": "Advanced New File",
+    "description": "An easier way of creating a new file inside a project.",
+    "version": "2.0.0",
+    "icon": "images/logo-300x.png",
+    "galleryBanner": {
+        "color": "#eeeeee",
+        "theme": "light"
     },
-    "commands": [
-      {
-        "command": "extension.createNewFile",
-        "title": "Files: Advanced New File"
-      }
+    "license": "MIT",
+    "publisher": "dkundel",
+    "engines": {
+        "vscode": "^0.10.1"
+    },
+    "categories": [
+        "Other"
     ],
-    "keybindings": [
-      {
-        "command": "extension.createNewFile",
-        "key": "alt+ctrl+n",
-        "mac": "alt+cmd+`"
-      }
-    ]
-  },
-  "scripts": {
-    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
-  },
-  "devDependencies": {
-    "expect.js": "^0.3.1",
-    "mockery": "^1.4.0",
-    "rimraf": "^2.4.4",
-    "typescript": "^1.6.2",
-    "vscode": "0.10.x"
-  },
-  "dependencies": {
-    "mkdirp": "^0.5.1",
-    "q": "^1.4.1"
-  }
+    "bugs": {
+        "url": "https://github.com/dkundel/vscode-new-file/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dkundel/vscode-new-file.git"
+    },
+    "activationEvents": [
+        "onCommand:extension.createNewFile"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "configuration": {
+            "title": "New File Extension Configuration",
+            "type": "object",
+            "properties": {
+                "newFile.showFullPath": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Shows the full path as an initial value in the text box for the path."
+                },
+                "newFile.relativeTo": {
+                    "type": "string",
+                    "default": "file",
+                    "description": "Whether the entered path should be treated relative to the existing 'project', the currently selected 'file' or specified 'root'. If set to 'root' you need to set the 'rootDirectory' setting."
+                },
+                "newFile.rootDirectory": {
+                    "type": "string",
+                    "default": "~",
+                    "description": "Only used when 'relativeTo' is set to 'root'. Used as the root for creating new files."
+                },
+                "newFile.defaultFileExtension": {
+                    "type": "string",
+                    "default": ".ts",
+                    "description": "Default file extension to be used when no file is open."
+                },
+                "newFile.defaultBaseFileName": {
+                    "type": "string",
+                    "default": "newFile",
+                    "description": "Default base file name."
+                }
+            }
+        },
+        "commands": [
+            {
+                "command": "extension.createNewFile",
+                "title": "Files: Advanced New File"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "extension.createNewFile",
+                "key": "alt+ctrl+n",
+                "mac": "alt+cmd+`"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
+    },
+    "devDependencies": {
+        "expect.js": "^0.3.1",
+        "mockery": "^1.4.0",
+        "rimraf": "^2.4.4",
+        "typescript": "^1.6.2",
+        "vscode": "0.10.x"
+    },
+    "dependencies": {
+        "mkdirp": "^0.5.1",
+        "q": "^1.4.1"
+    }
 }
