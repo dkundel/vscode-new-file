@@ -12,15 +12,14 @@ export function activate(context: ExtensionContext) {
 
   let disposable = commands.registerCommand('extension.createNewFile', () => {
 
-    const File = new FileController();
+    const File = new FileController().readSettings();
 
     File.showFileNameDialog()
-      .then(File.determineFullPath)
       .then(File.createFile)
       .then(File.openFileInEditor)
       .catch((err) => {
-        if (err) {
-          window.showErrorMessage(err);
+        if (err.message) {
+          window.showErrorMessage(err.message);
         }
       });
   });
@@ -28,28 +27,98 @@ export function activate(context: ExtensionContext) {
   context.subscriptions.push(disposable);
 }
 
+export interface NewFileSettings {
+  showFullPath: boolean;
+  relativeTo: string;
+  rootDirectory: string;
+  defaultFileExtension: string;
+  defaultBaseFileName: string;
+}
+
 export class FileController {
-  public getDefaultFileName(): string {
-    if (!window.activeTextEditor) {
-      return path.join(this.homedir(), 'newFile.ts');
+  private settings: NewFileSettings;
+
+  public readSettings(): FileController{
+    let config = workspace.getConfiguration('newFile');
+
+    this.settings = {
+      showFullPath: config.get('showFullPath', true),
+      relativeTo: config.get('relativeTo', 'file'),
+      rootDirectory: config.get('rootDirectory', this.homedir()),
+      defaultFileExtension: config.get('defaultFileExtension', '.ts'),
+      defaultBaseFileName: config.get('defaultBaseFileName', 'newFile')
+    };
+
+    return this;
+  }
+
+  public determineRoot(): string {
+    let root: string;
+
+    if (this.settings.relativeTo === 'project') {
+      root = workspace.rootPath;
+    } else if (this.settings.relativeTo === 'file') {
+      if (window.activeTextEditor) {
+        root = path.dirname(window.activeTextEditor.document.fileName);
+      }
     }
+
+    if (!root) {
+      this.settings.relativeTo === 'root';
+      root = this.settings.rootDirectory;
+
+      if (root.indexOf('~') === 0) {
+        root = path.join(this.homedir(), root.substr(1));
+      }
+    }
+
+    return root;
+  }
+
+  public getDefaultFileValue(root): string {
+    const newFileName = this.settings.defaultBaseFileName;
+    const defaultExtension = this.settings.defaultFileExtension;
     
     const currentFileName: string = window.activeTextEditor ? window.activeTextEditor.document.fileName : '';
-    const ext: string = path.extname(currentFileName) || '.ts';
-    const filePath: string = path.dirname(currentFileName);
+    const ext: string = path.extname(currentFileName) || defaultExtension;
     
-    return path.join(filePath, `newFile${ext}`);
+    if (this.settings.showFullPath) {
+      return path.join(root, `${newFileName}${ext}`);
+    } else {
+      return `${newFileName}${ext}`;
+    }
   }
   
   public showFileNameDialog(): Q.Promise<string> {
     const deferred: Q.Deferred<string> = Q.defer<string>();
+    let question = `What's the path and name of the new file?`;
+
+    if (!this.settings.showFullPath) {
+      if (this.settings.relativeTo === 'project') {
+        question += ' (Relative to project root)';
+      } else if (this.settings.relativeTo === 'file') {
+        question += ' (Relative to current file)';
+      }
+    }
+
+    let rootPath = this.determineRoot();
+    let defaultFileValue = this.getDefaultFileValue(rootPath);
 
     window.showInputBox({
-      prompt: 'What\'s the path and name of the new file? (Relative to current file)',
-      value: this.getDefaultFileName()
-    }).then((relativeFilePath) => {
-      if (relativeFilePath) {
-        deferred.resolve(relativeFilePath);
+      prompt: question,
+      value: defaultFileValue
+    }).then(selectedFilePath => {
+      if (selectedFilePath === null || typeof selectedFilePath === 'undefined') {
+        deferred.reject(undefined);
+        return;
+      }
+      selectedFilePath = selectedFilePath || defaultFileValue;
+      if (selectedFilePath) {
+        if (this.settings.showFullPath) {
+          deferred.resolve(selectedFilePath);
+        } else {
+          deferred.resolve(this.getFullPath(rootPath, selectedFilePath));
+        }
       }
     });
 
@@ -66,7 +135,7 @@ export class FileController {
 
       fs.appendFile(newFileName, '', (err) => {
         if (err) {
-          deferred.reject(err.message);
+          deferred.reject(err);
           return;
         }
 
@@ -84,13 +153,13 @@ export class FileController {
 
     workspace.openTextDocument(fileName).then((textDocument) => {
       if (!textDocument) {
-        deferred.reject('Could not open file!');
+        deferred.reject(new Error('Could not open file!'));
         return;
       }
 
       window.showTextDocument(textDocument).then((editor) => {
         if (!editor) {
-          deferred.reject('Could not show document!');
+          deferred.reject(new Error('Could not show document!'));
           return;
         }
 
@@ -101,58 +170,16 @@ export class FileController {
     return deferred.promise;
   }
 
-  public determineFullPath(filePath): Q.Promise<string> {
-    const deferred: Q.Deferred<string> = Q.defer<string>();
-    const homePath: string = this.homedir();
-    let suggestedPath: string = path.join(homePath, filePath);
-    const root: string = window.activeTextEditor ? window.activeTextEditor.document.fileName : suggestedPath;
-    const isUntitled: boolean = window.activeTextEditor ? window.activeTextEditor.document.isUntitled : true;
-
-    if (filePath.indexOf('/') === 0 || filePath.indexOf('~') === 0) {
-      deferred.resolve(filePath);
-      return deferred.promise;
+  private getFullPath(root: string, filePath: string): string {
+    if (filePath.indexOf('/') === 0) {
+      return filePath;
     }
 
-    if (root && !isUntitled) {
-      deferred.resolve(path.join(path.dirname(root), filePath))
-      return deferred.promise;
+    if (filePath.indexOf('~') === 0) {
+      return path.join(this.homedir(), filePath.substr(1));
     }
-    
-    const options: QuickPickOptions = {
-      matchOnDescription: true,
-      placeHolder: "You don't have a file open. Should we use your home path?"
-    };
 
-    const choices: QuickPickItem[] = [
-      { label: 'Yes', description: `Use ${suggestedPath}.`},
-      { label: 'No', description: 'Let me declare the absolute path.'}
-    ];
-
-    window.showQuickPick(choices, options).then((choice) => {
-      if (!choice) {
-        deferred.reject(null);
-        return;
-      }
-
-      if (choice.label === 'Yes') {
-        deferred.resolve(suggestedPath);
-        return;
-      }
-
-      window.showInputBox({
-        prompt: `What should be the base path for '${filePath}'`,
-        value: homePath
-      }).then((basePath) => {
-        if (!basePath) {
-          deferred.reject(null);
-          return;
-        }
-
-        deferred.resolve(path.join(basePath, filePath));
-      })
-    });
-
-    return deferred.promise;
+    return path.resolve(root, filePath);
   }
   
   private homedir(): string {

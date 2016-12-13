@@ -20,6 +20,20 @@ Before using the extension please make sure to read the [Disclaimer](#Disclaimer
 
 5. Happy Coding! :)  
 
+# Configuration
+
+You can configure the default behavior through various settings in your `settings.json`:
+
+```json
+{
+  "newFile.defaultBaseFileName": "newFile",
+  "newFile.relativeTo": "file", // "root" or "project"
+  "newFile.defaultFileExtension": ".ts",
+  "newFile.rootDirectory": "~",
+  "newFile.showFullPath": true
+}
+```
+
 # How to contribute
 
 1. Download source code and install dependencies 

@@ -37,15 +37,15 @@
           "default": true,
           "description": "Shows the full path as an initial value in the text box for the path."
         },
-        "newFile.relativeToProject": {
-          "type": "boolean",
-          "default": true,
-          "description": "Whether the entered path should be treated relative to the existing project. If set to 'false' it will use the 'rootDirectory' setting."
+        "newFile.relativeTo": {
+          "type": "string",
+          "default": "file",
+          "description": "Whether the entered path should be treated relative to the existing 'project', the currently selected 'file' or specified 'root'. If set to 'root' you need to set the 'rootDirectory' setting."
         },
         "newFile.rootDirectory": {
           "type": "string",
-          "default": null,
-          "description": "Only used when relativeToProject is set to 'false'. Used as the root for creating new files."
+          "default": "~",
+          "description": "Only used when 'relativeTo' is set to 'root'. Used as the root for creating new files."
         },
         "newFile.defaultFileExtension": {
           "type": "string",
