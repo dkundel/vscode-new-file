@@ -60,6 +60,8 @@ export class FileController {
     } else if (this.settings.relativeTo === 'file') {
       if (window.activeTextEditor) {
         root = path.dirname(window.activeTextEditor.document.fileName);
+      } else if (workspace.rootPath) {
+        root = workspace.rootPath;
       }
     }
 
