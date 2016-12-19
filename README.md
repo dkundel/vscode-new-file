@@ -24,7 +24,7 @@ Before using the extension please make sure to read the [Disclaimer](#Disclaimer
 
 You can configure the default behavior through various settings in your `settings.json`:
 
-```json
+```js
 {
   "newFile.defaultBaseFileName": "newFile",
   "newFile.relativeTo": "file", // "root" or "project"
