@@ -127,7 +127,13 @@ export class FileController {
     return deferred.promise;
   }
 
-  public createFile(newFileName): Q.Promise<string> {
+  public createFile(newBaseFileName): Q.Promise<string> {
+    const defaultExtension = this.settings.defaultFileExtension;
+    
+    const currentFileName: string = window.activeTextEditor ? window.activeTextEditor.document.fileName : '';
+    const ext: string = path.extname(currentFileName) || defaultExtension;
+    const newFileName = path.extname(newBaseFileName) ? newBaseFileName : (newBaseFileName + ext);
+    
     const deferred: Q.Deferred<string> = Q.defer<string>();
     let dirname: string = path.dirname(newFileName);
     let fileExists: boolean = fs.existsSync(newFileName);
