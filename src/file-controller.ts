@@ -114,13 +114,17 @@ export class FileController {
       }
       selectedFilePath = selectedFilePath || defaultFileValue;
       if (selectedFilePath) {
-        if (this.settings.showPathRelativeTo !== 'none') {
-          if (this.settings.showPathRelativeTo === 'project') {
-            selectedFilePath = path.resolve(workspace.rootPath, selectedFilePath);
-          }
-          deferred.resolve(selectedFilePath);
+        if (selectedFilePath.startsWith('./')) {
+          deferred.resolve(this.normalizeDotPath(selectedFilePath));
         } else {
-          deferred.resolve(this.getFullPath(rootPath, selectedFilePath));
+          if (this.settings.showPathRelativeTo !== 'none') {
+            if (this.settings.showPathRelativeTo === 'project') {
+              selectedFilePath = path.resolve(workspace.rootPath, selectedFilePath);
+            }
+            deferred.resolve(selectedFilePath);
+          } else {
+            deferred.resolve(this.getFullPath(rootPath, selectedFilePath));
+          }
         }
       }
     });
@@ -178,6 +182,13 @@ export class FileController {
     });
 
     return deferred.promise;
+  }
+
+  private normalizeDotPath(filePath: string): string {
+    const currentFileName: string = window.activeTextEditor ? window.activeTextEditor.document.fileName : '';
+    const directory = currentFileName.length > 0 ? path.dirname(currentFileName) : workspace.rootPath;
+
+    return path.resolve(directory, filePath);
   }
 
   private getFullPath(root: string, filePath: string): string {
