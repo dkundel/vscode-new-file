@@ -44,7 +44,8 @@
                     "description": ""
                 },
                 "newFile.showFullPath": {
-                    "type": ["boolean", "undefined"],
+                    "type": "boolean",
+                    "default": false,
                     "description": "[DEPRECATED] Use newFile.showFullPathRelativeTo: root instead."
                 },
                 "newFile.relativeTo": {
@@ -111,7 +112,6 @@
         "@types/mockery": "^1.4.29",
         "@types/node": "^7.0.18",
         "@types/rimraf": "^0.0.28",
-        "expect.js": "^0.3.1",
         "mocha": "^3.4.1",
         "mockery": "^1.4.0",
         "rimraf": "^2.4.4",
