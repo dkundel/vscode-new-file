@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dkundel/vscode-new-file.svg?branch=master)](https://travis-ci.org/dkundel/vscode-new-file)
+
 ![logo](images/logo-300x.png)
 # Advanced New File - Visual Studio Code Extension
 
