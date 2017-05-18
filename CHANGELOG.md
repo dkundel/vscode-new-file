@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.1] - 2017-05-18
+### Changed
+- Typo in README
+
 ## [3.0.0] - 2017-05-18
 ### Added
 - Added CHANGELOG.md

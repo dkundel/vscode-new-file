@@ -2,7 +2,7 @@
     "name": "vscode-new-file",
     "displayName": "Advanced New File",
     "description": "An easier way of creating a new file inside a project.",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "icon": "images/logo-300x.png",
     "galleryBanner": {
         "color": "#eeeeee",
