@@ -17,8 +17,8 @@ import * as Debug from 'debug';
 const debug = Debug('vscode-new-file');
 
 export interface NewFileSettings {
-  showFullPath: boolean;
-  relativeTo: string;
+  showPathRelativeTo: 'root' | 'project' | 'none';
+  relativeTo: 'root' | 'project' | 'file';
   rootDirectory: string;
   defaultFileExtension: string;
   defaultBaseFileName: string;
@@ -31,12 +31,18 @@ export class FileController {
     let config = workspace.getConfiguration('newFile');
 
     this.settings = {
-      showFullPath: config.get('showFullPath', true),
+      showPathRelativeTo: config.get('showPathRelativeTo', 'root'),
       relativeTo: config.get('relativeTo', 'file'),
       rootDirectory: config.get('rootDirectory', this.homedir()),
       defaultFileExtension: config.get('defaultFileExtension', '.ts'),
       defaultBaseFileName: config.get('defaultBaseFileName', 'newFile')
     };
+
+    const showFullPath = config.get('showFullPath') as ( boolean | undefined);
+    if (showFullPath) {
+      window.showInformationMessage('You are using a deprecated option "showFullPath". Switch instead to "showFullPathRelativeTo"');
+      this.settings.showPathRelativeTo = 'root';
+    }
 
     return this;
   }
@@ -55,7 +61,6 @@ export class FileController {
     }
 
     if (!root) {
-      this.settings.relativeTo === 'root';
       root = this.settings.rootDirectory;
 
       if (root.indexOf('~') === 0) {
@@ -73,8 +78,12 @@ export class FileController {
     const currentFileName: string = window.activeTextEditor ? window.activeTextEditor.document.fileName : '';
     const ext: string = path.extname(currentFileName) || defaultExtension;
     
-    if (this.settings.showFullPath) {
-      return path.join(root, `${newFileName}${ext}`);
+    if (this.settings.showPathRelativeTo !== 'none') {
+      const fullPath = path.join(root, `${newFileName}${ext}`);
+      if (this.settings.showPathRelativeTo === 'project') {
+        return fullPath.replace(workspace.rootPath+path.sep, '');
+      }
+      return fullPath;
     } else {
       return `${newFileName}${ext}`;
     }
@@ -84,7 +93,7 @@ export class FileController {
     const deferred: Q.Deferred<string> = Q.defer<string>();
     let question = `What's the path and name of the new file?`;
 
-    if (!this.settings.showFullPath) {
+    if (this.settings.showPathRelativeTo === 'none') {
       if (this.settings.relativeTo === 'project') {
         question += ' (Relative to project root)';
       } else if (this.settings.relativeTo === 'file') {
@@ -105,7 +114,10 @@ export class FileController {
       }
       selectedFilePath = selectedFilePath || defaultFileValue;
       if (selectedFilePath) {
-        if (this.settings.showFullPath) {
+        if (this.settings.showPathRelativeTo !== 'none') {
+          if (this.settings.showPathRelativeTo === 'project') {
+            selectedFilePath = path.resolve(workspace.rootPath, selectedFilePath);
+          }
           deferred.resolve(selectedFilePath);
         } else {
           deferred.resolve(this.getFullPath(rootPath, selectedFilePath));

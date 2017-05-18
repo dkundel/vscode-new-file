@@ -32,13 +32,27 @@
             "title": "New File Extension Configuration",
             "type": "object",
             "properties": {
+                "newFile.showPathRelativeTo": {
+                    "type": "string",
+                    "enum": [
+                        "root",
+                        "project",
+                        "none"
+                    ],
+                    "default": "root",
+                    "description": ""
+                },
                 "newFile.showFullPath": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Shows the full path as an initial value in the text box for the path."
+                    "type": ["boolean", "undefined"],
+                    "description": "[DEPRECATED] Use newFile.showFullPathRelativeTo: root instead."
                 },
                 "newFile.relativeTo": {
                     "type": "string",
+                    "enum": [
+                        "file",
+                        "project",
+                        "root"
+                    ],
                     "default": "file",
                     "description": "Whether the entered path should be treated relative to the existing 'project', the currently selected 'file' or specified 'root'. If set to 'root' you need to set the 'rootDirectory' setting."
                 },
