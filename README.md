@@ -41,7 +41,7 @@ You can also set a new keyboard shortcut for the command in `keybindings.json`:
 [
   {
     "key": "cmd+n",
-    "command": "extension.createNewFile"
+    "command": "newFile.createNewFile"
   }
 ]
 ```
