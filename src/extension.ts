@@ -132,7 +132,7 @@ export class FileController {
     
     const currentFileName: string = window.activeTextEditor ? window.activeTextEditor.document.fileName : '';
     const ext: string = path.extname(currentFileName) || defaultExtension;
-    const newFileName = path.extname(newBaseFileName) ? newBaseFileName : (newBaseFileName + ext);
+    const newFileName = (path.extname(newBaseFileName) || newBaseFileName[0] === '.') ? newBaseFileName : (newBaseFileName + ext);
     
     const deferred: Q.Deferred<string> = Q.defer<string>();
     let dirname: string = path.dirname(newFileName);
