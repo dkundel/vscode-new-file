@@ -10,15 +10,14 @@ Before using the extension please make sure to read the [Disclaimer](#Disclaimer
 
 ![demo](images/demo.gif)
 
-1. Press the Shortcut <kbd>Cmd+Alt+N</kbd> or run the `Files: Advanced New File` command.
+1. a) Press the Shortcut <kbd>Cmd+Alt+N</kbd> or run the `Files: Advanced New File` command.
+1. b) Right click in the explorer menu and choose 'Advanced New File'.
 
 2. Enter a relative file path or stick with the default. If you have a file open it will guess the extension based on the current extension.
 
-3. If you don't have a project open in your workspace, the extension will ask you which base path you want to have.
+3. An empty file will be created and the cursor will be placed into the new file.
 
-4. An empty file will be created and the cursor will be placed into the new file.
-
-5. Happy Coding! :)
+4. Happy Coding! :)  
 
 # Configuration
 
@@ -30,7 +29,7 @@ You can configure the default behavior through various settings in your `setting
   "newFile.relativeTo": "file", // "root" or "project"
   "newFile.defaultFileExtension": ".ts",
   "newFile.rootDirectory": "~",
-  "newFile.showFullPath": true
+  "newFile.showPathRelativeTo": "root" // "project" or "none"
 }
 ```
 
@@ -73,6 +72,8 @@ or take any responsibility in case of lost data.
 # Contributors
 
 [Dominik Kundel](https://github.com/dkundel)
+[Patrick Hulce](https://github.com/patrickhulce)
+[Sarbbottam Bandyopadhyay](https://github.com/sarbbottam)
 
 # License
 
