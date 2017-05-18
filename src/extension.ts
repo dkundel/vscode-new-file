@@ -16,7 +16,9 @@ export function activate(context: ExtensionContext) {
 
     const File = new FileController().readSettings();
 
-    File.showFileNameDialog()
+    File.determineRoot()
+      .then(root => File.getDefaultFileValue(root))
+      .then(fileName => File.showFileNameDialog(fileName))
       .then(File.createFile)
       .then(File.openFileInEditor)
       .catch((err) => {
@@ -32,7 +34,9 @@ export function activate(context: ExtensionContext) {
     window.showWarningMessage('You are using a deprecated event. Please switch your keyboard shortcut to use "newFile.createNewFile"');
     const File = new FileController().readSettings();
 
-    File.showFileNameDialog()
+    File.determineRoot()
+      .then(root => File.getDefaultFileValue(root))
+      .then(fileName => File.showFileNameDialog(fileName))
       .then(File.createFile)
       .then(File.openFileInEditor)
       .catch((err) => {
@@ -43,4 +47,23 @@ export function activate(context: ExtensionContext) {
   });
 
   context.subscriptions.push(disposableDeprecated);
+
+  let disposableExplorerEntry = commands.registerCommand('newFile.createFromExplorer', (file) => {
+    if (!file || !file.path) {
+      return;
+    }
+
+    const File = new FileController().readSettings();
+
+    File.getRootFromExplorerPath(file.path)
+      .then(root => File.getDefaultFileValue(root))
+      .then(fileName => File.showFileNameDialog(fileName, true))
+      .then(File.createFile)
+      .then(File.openFileInEditor)
+      .catch((err) => {
+        if (err.message) {
+          window.showErrorMessage(err.message);
+        }
+      });
+  });
 }

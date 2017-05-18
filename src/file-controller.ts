@@ -27,6 +27,8 @@ export interface NewFileSettings {
 export class FileController {
   private settings: NewFileSettings;
 
+  private rootPath: string;
+
   public readSettings(): FileController {
     let config = workspace.getConfiguration('newFile');
 
@@ -47,7 +49,19 @@ export class FileController {
     return this;
   }
 
-  public determineRoot(): string {
+  public getRootFromExplorerPath(filePath: string): Q.Promise<string> {
+    let dir = path.dirname(filePath);
+    const stats = fs.statSync(dir);
+    if (!stats.isDirectory()) {
+      dir = path.resolve(dir, '..');
+    }
+
+    this.rootPath = dir;
+
+    return Q(dir);
+  }
+
+  public determineRoot(): Q.Promise<string> {
     let root: string;
 
     if (this.settings.relativeTo === 'project') {
@@ -68,10 +82,12 @@ export class FileController {
       }
     }
 
-    return root;
+    this.rootPath = root;
+
+    return Q(root);
   }
 
-  public getDefaultFileValue(root: string): string {
+  public getDefaultFileValue(root: string): Q.Promise<string> {
     const newFileName = this.settings.defaultBaseFileName;
     const defaultExtension = this.settings.defaultFileExtension;
     
@@ -81,28 +97,29 @@ export class FileController {
     if (this.settings.showPathRelativeTo !== 'none') {
       const fullPath = path.join(root, `${newFileName}${ext}`);
       if (this.settings.showPathRelativeTo === 'project') {
-        return fullPath.replace(workspace.rootPath+path.sep, '');
+        return Q(fullPath.replace(workspace.rootPath+path.sep, ''));
       }
-      return fullPath;
+      return Q(fullPath);
     } else {
-      return `${newFileName}${ext}`;
+      return Q(`${newFileName}${ext}`);
     }
   }
   
-  public showFileNameDialog(): Q.Promise<string> {
+  public showFileNameDialog(defaultFileValue: string, fromExplorer: boolean = false): Q.Promise<string> {
     const deferred: Q.Deferred<string> = Q.defer<string>();
     let question = `What's the path and name of the new file?`;
 
-    if (this.settings.showPathRelativeTo === 'none') {
+    if (fromExplorer) {
+      question += ' (Relative to selected file)';
+    } else if (this.settings.showPathRelativeTo === 'none') {
       if (this.settings.relativeTo === 'project') {
         question += ' (Relative to project root)';
       } else if (this.settings.relativeTo === 'file') {
         question += ' (Relative to current file)';
       }
+    } else if (this.settings.showPathRelativeTo === 'project') {
+      question += ' (Relative to project root)';
     }
-
-    let rootPath = this.determineRoot();
-    let defaultFileValue = this.getDefaultFileValue(rootPath);
 
     window.showInputBox({
       prompt: question,
@@ -123,7 +140,7 @@ export class FileController {
             }
             deferred.resolve(selectedFilePath);
           } else {
-            deferred.resolve(this.getFullPath(rootPath, selectedFilePath));
+            deferred.resolve(this.getFullPath(this.rootPath, selectedFilePath));
           }
         }
       }

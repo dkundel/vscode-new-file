@@ -24,6 +24,7 @@
         "url": "https://github.com/dkundel/vscode-new-file.git"
     },
     "activationEvents": [
+        "onCommand:newFile.createFromExplorer",
         "onCommand:newFile.createNewFile"
     ],
     "main": "./out/src/extension",
@@ -77,6 +78,10 @@
             {
                 "command": "newFile.createNewFile",
                 "title": "Files: Advanced New File"
+            },
+            {
+                "command": "newFile.createFromExplorer",
+                "title": "Advanced New File"
             }
         ],
         "keybindings": [
@@ -85,7 +90,14 @@
                 "key": "alt+ctrl+n",
                 "mac": "alt+cmd+n"
             }
-        ]
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "command": "newFile.createFromExplorer"
+                }
+            ]
+        }
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
