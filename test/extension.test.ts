@@ -1,9 +1,7 @@
-/// <reference path="../typings/tsd.d.ts" />
-
-require('expect.js');
+import * as assert from 'assert';
 
 import * as vscode from 'vscode';
-import * as extension from '../src/extension';
+import { FileController } from '../src/file-controller';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as mkdirp from 'mkdirp';
@@ -32,7 +30,7 @@ suite('Extension Tests', () => {
     
     tests.forEach((t) => {
       test(`testing '${t.fileName}'`, () => {
-        const File = new extension.FileController();
+        const File = new FileController();
         const filePath = path.join(testResourcesPath, t.fileName);
         
         File.createFile(filePath)
