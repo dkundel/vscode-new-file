@@ -13,6 +13,7 @@ import * as path from 'path';
 import * as Q from 'q';
 import * as mkdirp from 'mkdirp';
 import * as Debug from 'debug';
+import * as braces from "braces";
 
 const debug = Debug('vscode-new-file');
 
@@ -22,6 +23,7 @@ export interface NewFileSettings {
   rootDirectory: string;
   defaultFileExtension: string;
   defaultBaseFileName: string;
+  expandBraces: boolean;
 }
 
 export class FileController {
@@ -37,7 +39,8 @@ export class FileController {
       relativeTo: config.get('relativeTo', 'file'),
       rootDirectory: config.get('rootDirectory', this.homedir()),
       defaultFileExtension: config.get('defaultFileExtension', '.ts'),
-      defaultBaseFileName: config.get('defaultBaseFileName', 'newFile')
+      defaultBaseFileName: config.get('defaultBaseFileName', 'newFile'),
+      expandBraces: config.get('expandBraces', false)
     };
 
     const showFullPath = config.get('showFullPath') as ( boolean | undefined);
@@ -149,6 +152,16 @@ export class FileController {
     return deferred.promise;
   }
 
+  public createFiles(userEntry: string): Q.Promise<string[]> {
+    if(!this.settings.expandBraces) {
+      return Q.all([this.createFile(userEntry)]);
+    }
+
+    const newFileNames = braces.expand(userEntry);
+    const fileCreationPromises: Q.Promise<string>[] = newFileNames.map((fileName) => this.createFile(fileName));
+    return Q.all(fileCreationPromises);
+  }
+
   public createFile(newFileName: string): Q.Promise<string> {
     const deferred: Q.Deferred<string> = Q.defer<string>();
     let dirname: string = path.dirname(newFileName);
@@ -172,33 +185,35 @@ export class FileController {
     return deferred.promise;
   }
 
-  public openFileInEditor(fileName: string): Q.Promise<TextEditor> {
-    const deferred: Q.Deferred<TextEditor> = Q.defer<TextEditor>();
-    const stats = fs.statSync(fileName);
+  public openFilesInEditor(fileNames: string[]): Q.Promise<TextEditor>[] {
+    return fileNames.map((fileName) => {
+      const deferred: Q.Deferred<TextEditor> = Q.defer<TextEditor>();
+      const stats = fs.statSync(fileName);
 
-    if (stats.isDirectory()) {
-      window.showInformationMessage('This file is already a directory. Try a different name.');
-      deferred.resolve();
-      return deferred.promise;
-    }
-
-    workspace.openTextDocument(fileName).then((textDocument) => {
-      if (!textDocument) {
-        deferred.reject(new Error('Could not open file!'));
-        return;
+      if (stats.isDirectory()) {
+        window.showInformationMessage('This file is already a directory. Try a different name.');
+        deferred.resolve();
+        return deferred.promise;
       }
 
-      window.showTextDocument(textDocument).then((editor) => {
-        if (!editor) {
-          deferred.reject(new Error('Could not show document!'));
+      workspace.openTextDocument(fileName).then((textDocument) => {
+        if (!textDocument) {
+          deferred.reject(new Error('Could not open file!'));
           return;
         }
 
-        deferred.resolve(editor);
-      });
-    });
+        window.showTextDocument(textDocument).then((editor) => {
+          if (!editor) {
+            deferred.reject(new Error('Could not show document!'));
+            return;
+          }
 
-    return deferred.promise;
+          deferred.resolve(editor);
+        });
+      });
+
+      return deferred.promise;
+    });
   }
 
   private normalizeDotPath(filePath: string): string {
