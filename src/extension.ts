@@ -37,8 +37,8 @@ export function activate(context: ExtensionContext) {
     File.determineRoot()
       .then(root => File.getDefaultFileValue(root))
       .then(fileName => File.showFileNameDialog(fileName))
-      .then(File.createFile)
-      .then(File.openFileInEditor)
+      .then((fileName) => File.createFiles(fileName))
+      .then(File.openFilesInEditor)
       .catch((err) => {
         if (err.message) {
           window.showErrorMessage(err.message);
@@ -59,7 +59,7 @@ export function activate(context: ExtensionContext) {
       .then(root => File.getDefaultFileValue(root))
       .then(fileName => File.showFileNameDialog(fileName, true))
       .then(File.createFile)
-      .then(File.openFileInEditor)
+      .then((fileName) => File.createFiles(fileName))
       .catch((err) => {
         if (err.message) {
           window.showErrorMessage(err.message);
