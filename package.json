@@ -72,6 +72,11 @@
                     "type": "string",
                     "default": "newFile",
                     "description": "Default base file name."
+                },
+                "newFile.expandBraces": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether braces should be expanded to multiple paths (such as {test1,test2}.js creating two files, test1.js and test2.js"
                 }
             }
         },
@@ -122,6 +127,7 @@
         "@types/debug": "^0.0.29",
         "@types/mkdirp": "^0.3.29",
         "@types/q": "^1.0.0",
+        "braces": "^2.2.2",
         "debug": "^2.6.7",
         "mkdirp": "^0.5.1",
         "q": "^1.4.1"
