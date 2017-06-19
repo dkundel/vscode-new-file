@@ -74,10 +74,10 @@ or take any responsibility in case of lost data.
 
 # Contributors
 
-[Dominik Kundel](https://github.com/dkundel)
-[Patrick Hulce](https://github.com/patrickhulce)
-[Sarbbottam Bandyopadhyay](https://github.com/sarbbottam)
-[Carl Henderson](https://github.com/chuckhendo)
+- [Dominik Kundel](https://github.com/dkundel)
+- [Patrick Hulce](https://github.com/patrickhulce)
+- [Sarbbottam Bandyopadhyay](https://github.com/sarbbottam)
+- [Carl Henderson](https://github.com/chuckhendo)
 
 # License
 
