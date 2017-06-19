@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.1.0] - 2017-06-19
+### Added
+- Added new option to expand braces notation for multi-file creation
+
 ## [3.0.2] - 2017-05-18
 ### Changed
 - Added missing description to `newFile.showPathRelativeTo`
