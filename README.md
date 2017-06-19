@@ -31,7 +31,8 @@ You can configure the default behavior through various settings in your `setting
   "newFile.relativeTo": "file", // "root" or "project"
   "newFile.defaultFileExtension": ".ts",
   "newFile.rootDirectory": "~",
-  "newFile.showPathRelativeTo": "root" // "project" or "none"
+  "newFile.showPathRelativeTo": "root", // "project" or "none"
+  "newFile.expandBraces": false // setting to true will allow for creating multiple files such as `new-folder/{file1,file2}.js`
 }
 ```
 
@@ -76,6 +77,7 @@ or take any responsibility in case of lost data.
 [Dominik Kundel](https://github.com/dkundel)
 [Patrick Hulce](https://github.com/patrickhulce)
 [Sarbbottam Bandyopadhyay](https://github.com/sarbbottam)
+[Carl Henderson](https://github.com/chuckhendo)
 
 # License
 
