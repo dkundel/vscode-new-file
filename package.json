@@ -13,9 +13,7 @@
   "engines": {
     "vscode": "^1.0.0"
   },
-  "categories": [
-    "Other"
-  ],
+  "categories": ["Other"],
   "bugs": {
     "url": "https://github.com/dkundel/vscode-new-file/issues"
   },
@@ -35,26 +33,18 @@
       "properties": {
         "newFile.showPathRelativeTo": {
           "type": "string",
-          "enum": [
-            "root",
-            "project",
-            "none"
-          ],
+          "enum": ["root", "project", "none"],
           "default": "root",
           "description": "Let's you configure relative to what the path should be shown. 'root' is the equivalent of showing the whole URL base don the configured root."
         },
         "newFile.showFullPath": {
           "type": "boolean",
           "default": false,
-          "description": "[DEPRECATED] Use newFile.showFullPathRelativeTo: root instead."
+          "description": "[DEPRECATED] Use newFile.showPathRelativeTo: none instead."
         },
         "newFile.relativeTo": {
           "type": "string",
-          "enum": [
-            "file",
-            "project",
-            "root"
-          ],
+          "enum": ["file", "project", "root"],
           "default": "file",
           "description": "Whether the entered path should be treated relative to the existing 'project', the currently selected 'file' or specified 'root'. If set to 'root' you need to set the 'rootDirectory' setting."
         },
@@ -80,7 +70,8 @@
         }
       }
     },
-    "commands": [{
+    "commands": [
+      {
         "command": "newFile.createNewFile",
         "title": "Files: Advanced New File"
       },
@@ -89,15 +80,19 @@
         "title": "Advanced New File"
       }
     ],
-    "keybindings": [{
-      "command": "newFile.createNewFile",
-      "key": "alt+ctrl+n",
-      "mac": "alt+cmd+n"
-    }],
+    "keybindings": [
+      {
+        "command": "newFile.createNewFile",
+        "key": "alt+ctrl+n",
+        "mac": "alt+cmd+n"
+      }
+    ],
     "menus": {
-      "explorer/context": [{
-        "command": "newFile.createFromExplorer"
-      }]
+      "explorer/context": [
+        {
+          "command": "newFile.createFromExplorer"
+        }
+      ]
     }
   },
   "scripts": {
