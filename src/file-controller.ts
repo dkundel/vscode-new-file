@@ -1,11 +1,11 @@
-import { 
+import {
   commands,
   ExtensionContext,
   QuickPickItem,
   QuickPickOptions,
   TextEditor,
   window,
-  workspace,
+  workspace
 } from 'vscode';
 
 import * as fs from 'fs';
@@ -13,7 +13,7 @@ import * as path from 'path';
 import * as Q from 'q';
 import * as mkdirp from 'mkdirp';
 import * as Debug from 'debug';
-import * as braces from "braces";
+import * as braces from 'braces';
 
 const debug = Debug('vscode-new-file');
 
@@ -43,9 +43,11 @@ export class FileController {
       expandBraces: config.get('expandBraces', false)
     };
 
-    const showFullPath = config.get('showFullPath') as ( boolean | undefined);
+    const showFullPath = config.get('showFullPath') as boolean | undefined;
     if (showFullPath) {
-      window.showInformationMessage('You are using a deprecated option "showFullPath". Switch instead to "showFullPathRelativeTo"');
+      window.showInformationMessage(
+        'You are using a deprecated option "showFullPath". Switch instead to "showFullPathRelativeTo"'
+      );
       this.settings.showPathRelativeTo = 'root';
     }
 
@@ -93,22 +95,27 @@ export class FileController {
   public getDefaultFileValue(root: string): Q.Promise<string> {
     const newFileName = this.settings.defaultBaseFileName;
     const defaultExtension = this.settings.defaultFileExtension;
-    
-    const currentFileName: string = window.activeTextEditor ? window.activeTextEditor.document.fileName : '';
+
+    const currentFileName: string = window.activeTextEditor
+      ? window.activeTextEditor.document.fileName
+      : '';
     const ext: string = path.extname(currentFileName) || defaultExtension;
-    
+
     if (this.settings.showPathRelativeTo !== 'none') {
       const fullPath = path.join(root, `${newFileName}${ext}`);
       if (this.settings.showPathRelativeTo === 'project') {
-        return Q(fullPath.replace(workspace.rootPath+path.sep, ''));
+        return Q(fullPath.replace(workspace.rootPath + path.sep, ''));
       }
       return Q(fullPath);
     } else {
       return Q(`${newFileName}${ext}`);
     }
   }
-  
-  public showFileNameDialog(defaultFileValue: string, fromExplorer: boolean = false): Q.Promise<string> {
+
+  public showFileNameDialog(
+    defaultFileValue: string,
+    fromExplorer: boolean = false
+  ): Q.Promise<string> {
     const deferred: Q.Deferred<string> = Q.defer<string>();
     let question = `What's the path and name of the new file?`;
 
@@ -124,41 +131,53 @@ export class FileController {
       question += ' (Relative to project root)';
     }
 
-    window.showInputBox({
-      prompt: question,
-      value: defaultFileValue
-    }).then(selectedFilePath => {
-      if (selectedFilePath === null || typeof selectedFilePath === 'undefined') {
-        deferred.reject(undefined);
-        return;
-      }
-      selectedFilePath = selectedFilePath || defaultFileValue;
-      if (selectedFilePath) {
-        if (selectedFilePath.startsWith('./')) {
-          deferred.resolve(this.normalizeDotPath(selectedFilePath));
-        } else {
-          if (this.settings.showPathRelativeTo !== 'none') {
-            if (this.settings.showPathRelativeTo === 'project') {
-              selectedFilePath = path.resolve(workspace.rootPath, selectedFilePath);
-            }
-            deferred.resolve(selectedFilePath);
+    window
+      .showInputBox({
+        prompt: question,
+        value: defaultFileValue
+      })
+      .then(selectedFilePath => {
+        if (
+          selectedFilePath === null ||
+          typeof selectedFilePath === 'undefined'
+        ) {
+          deferred.reject(undefined);
+          return;
+        }
+        selectedFilePath = selectedFilePath || defaultFileValue;
+        if (selectedFilePath) {
+          if (selectedFilePath.startsWith('./')) {
+            deferred.resolve(this.normalizeDotPath(selectedFilePath));
           } else {
-            deferred.resolve(this.getFullPath(this.rootPath, selectedFilePath));
+            if (this.settings.showPathRelativeTo !== 'none') {
+              if (this.settings.showPathRelativeTo === 'project') {
+                selectedFilePath = path.resolve(
+                  workspace.rootPath,
+                  selectedFilePath
+                );
+              }
+              deferred.resolve(selectedFilePath);
+            } else {
+              deferred.resolve(
+                this.getFullPath(this.rootPath, selectedFilePath)
+              );
+            }
           }
         }
-      }
-    });
+      });
 
     return deferred.promise;
   }
 
   public createFiles(userEntry: string): Q.Promise<string[]> {
-    if(!this.settings.expandBraces) {
+    if (!this.settings.expandBraces) {
       return Q.all([this.createFile(userEntry)]);
     }
 
     const newFileNames = braces.expand(userEntry);
-    const fileCreationPromises: Q.Promise<string>[] = newFileNames.map((fileName) => this.createFile(fileName));
+    const fileCreationPromises: Q.Promise<
+      string
+    >[] = newFileNames.map(fileName => this.createFile(fileName));
     return Q.all(fileCreationPromises);
   }
 
@@ -170,7 +189,7 @@ export class FileController {
     if (!fileExists) {
       mkdirp.sync(dirname);
 
-      fs.appendFile(newFileName, '', (err) => {
+      fs.appendFile(newFileName, '', err => {
         if (err) {
           deferred.reject(err);
           return;
@@ -186,23 +205,25 @@ export class FileController {
   }
 
   public openFilesInEditor(fileNames: string[]): Q.Promise<TextEditor>[] {
-    return fileNames.map((fileName) => {
+    return fileNames.map(fileName => {
       const deferred: Q.Deferred<TextEditor> = Q.defer<TextEditor>();
       const stats = fs.statSync(fileName);
 
       if (stats.isDirectory()) {
-        window.showInformationMessage('This file is already a directory. Try a different name.');
+        window.showInformationMessage(
+          'This file is already a directory. Try a different name.'
+        );
         deferred.resolve();
         return deferred.promise;
       }
 
-      workspace.openTextDocument(fileName).then((textDocument) => {
+      workspace.openTextDocument(fileName).then(textDocument => {
         if (!textDocument) {
           deferred.reject(new Error('Could not open file!'));
           return;
         }
 
-        window.showTextDocument(textDocument).then((editor) => {
+        window.showTextDocument(textDocument).then(editor => {
           if (!editor) {
             deferred.reject(new Error('Could not show document!'));
             return;
@@ -217,8 +238,13 @@ export class FileController {
   }
 
   private normalizeDotPath(filePath: string): string {
-    const currentFileName: string = window.activeTextEditor ? window.activeTextEditor.document.fileName : '';
-    const directory = currentFileName.length > 0 ? path.dirname(currentFileName) : workspace.rootPath;
+    const currentFileName: string = window.activeTextEditor
+      ? window.activeTextEditor.document.fileName
+      : '';
+    const directory =
+      currentFileName.length > 0
+        ? path.dirname(currentFileName)
+        : workspace.rootPath;
 
     return path.resolve(directory, filePath);
   }
@@ -234,8 +260,8 @@ export class FileController {
 
     return path.resolve(root, filePath);
   }
-  
+
   private homedir(): string {
-    return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+    return process.env[process.platform == 'win32' ? 'USERPROFILE' : 'HOME'];
   }
 }
