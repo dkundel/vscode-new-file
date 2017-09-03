@@ -10,12 +10,18 @@ import {
 
 import * as fs from 'fs';
 import * as path from 'path';
-import * as Q from 'q';
+import { denodeify } from 'q';
 import * as mkdirp from 'mkdirp';
 import * as Debug from 'debug';
 import * as braces from 'braces';
+import { fileExists } from './utils';
 
 const debug = Debug('vscode-new-file');
+
+const mkdir = denodeify(mkdirp);
+const readFile = denodeify(fs.readFile);
+const appendFile = denodeify(fs.appendFile);
+const fsStat = denodeify(fs.stat);
 
 type PathName = string;
 
@@ -60,19 +66,19 @@ export class FileController {
     return this;
   }
 
-  public getRootFromExplorerPath(filePath: string): Q.Promise<string> {
+  public async getRootFromExplorerPath(filePath: string): Promise<string> {
     let dir = path.dirname(filePath);
-    const stats = fs.statSync(dir);
+    const stats = (await fsStat(dir)) as fs.Stats;
     if (!stats.isDirectory()) {
       dir = path.resolve(dir, '..');
     }
 
     this.rootPath = dir;
 
-    return Q(dir);
+    return dir;
   }
 
-  public determineRoot(): Q.Promise<string> {
+  public determineRoot(): string {
     let root: string;
 
     if (this.settings.relativeTo === 'project') {
@@ -95,10 +101,10 @@ export class FileController {
 
     this.rootPath = root;
 
-    return Q(root);
+    return root;
   }
 
-  public getDefaultFileValue(root: string): Q.Promise<string> {
+  public getDefaultFileValue(root: string): string {
     const newFileName = this.settings.defaultBaseFileName;
     const defaultExtension = this.settings.defaultFileExtension;
 
@@ -110,19 +116,18 @@ export class FileController {
     if (this.settings.showPathRelativeTo !== 'none') {
       const fullPath = path.join(root, `${newFileName}${ext}`);
       if (this.settings.showPathRelativeTo === 'project') {
-        return Q(fullPath.replace(workspace.rootPath + path.sep, ''));
+        return fullPath.replace(workspace.rootPath + path.sep, '');
       }
-      return Q(fullPath);
+      return fullPath;
     } else {
-      return Q(`${newFileName}${ext}`);
+      return `${newFileName}${ext}`;
     }
   }
 
-  public showFileNameDialog(
+  public async showFileNameDialog(
     defaultFileValue: string,
     fromExplorer: boolean = false
-  ): Q.Promise<string> {
-    const deferred: Q.Deferred<string> = Q.defer<string>();
+  ): Promise<string> {
     let question = `What's the path and name of the new file?`;
 
     if (fromExplorer) {
@@ -137,119 +142,90 @@ export class FileController {
       question += ' (Relative to project root)';
     }
 
-    window
-      .showInputBox({
-        prompt: question,
-        value: defaultFileValue
-      })
-      .then(selectedFilePath => {
-        if (
-          selectedFilePath === null ||
-          typeof selectedFilePath === 'undefined'
-        ) {
-          deferred.reject(undefined);
-          return;
-        }
-        selectedFilePath = selectedFilePath || defaultFileValue;
-        if (selectedFilePath) {
-          if (selectedFilePath.startsWith('./')) {
-            deferred.resolve(this.normalizeDotPath(selectedFilePath));
-          } else {
-            if (this.settings.showPathRelativeTo !== 'none') {
-              if (this.settings.showPathRelativeTo === 'project') {
-                selectedFilePath = path.resolve(
-                  workspace.rootPath,
-                  selectedFilePath
-                );
-              }
-              deferred.resolve(selectedFilePath);
-            } else {
-              deferred.resolve(
-                this.getFullPath(this.rootPath, selectedFilePath)
-              );
-            }
+    let selectedFilePath = await window.showInputBox({
+      prompt: question,
+      value: defaultFileValue
+    });
+    if (selectedFilePath === null || typeof selectedFilePath === 'undefined') {
+      throw undefined;
+    }
+    selectedFilePath = selectedFilePath || defaultFileValue;
+    if (selectedFilePath) {
+      if (selectedFilePath.startsWith('./')) {
+        return this.normalizeDotPath(selectedFilePath);
+      } else {
+        if (this.settings.showPathRelativeTo !== 'none') {
+          if (this.settings.showPathRelativeTo === 'project') {
+            selectedFilePath = path.resolve(
+              workspace.rootPath,
+              selectedFilePath
+            );
           }
+          return selectedFilePath;
+        } else {
+          return this.getFullPath(this.rootPath, selectedFilePath);
         }
-      });
-
-    return deferred.promise;
+      }
+    }
   }
 
-  public createFiles(userEntry: string): Q.Promise<string[]> {
+  public async createFiles(userEntry: string): Promise<string[]> {
     if (!this.settings.expandBraces) {
-      return Q.all([this.createFile(userEntry)]);
+      return Promise.all([this.createFile(userEntry)]);
     }
 
     const newFileNames = braces.expand(userEntry);
-    const fileCreationPromises: Q.Promise<
-      string
-    >[] = newFileNames.map(fileName => this.createFile(fileName));
-    return Q.all(fileCreationPromises);
+    const fileCreationPromises: Promise<string>[] = newFileNames.map(fileName =>
+      this.createFile(fileName)
+    );
+    return Promise.all(fileCreationPromises);
   }
 
-  public createFile(newFileName: string): Q.Promise<string> {
-    const deferred: Q.Deferred<string> = Q.defer<string>();
+  public async createFile(newFileName: string): Promise<string> {
     let dirname: string = path.dirname(newFileName);
     let extension: string = path.extname(newFileName);
-    let fileExists: boolean = fs.existsSync(newFileName);
+    let doesFileExist: boolean = await fileExists(newFileName);
 
-    if (!fileExists) {
-      mkdirp.sync(dirname);
+    if (!doesFileExist) {
+      await mkdir(dirname);
 
       let content = '';
       let templatePath = this.settings.fileTemplates[extension];
       if (this.settings.useFileTemplates && templatePath !== undefined) {
-        content = fs.readFileSync(
+        content = (await readFile(
           path.resolve(this.settings.rootDirectory, templatePath),
           'utf8'
-        );
+        )) as string;
       }
 
-      fs.appendFile(newFileName, content, err => {
-        if (err) {
-          deferred.reject(err);
-          return;
-        }
-
-        deferred.resolve(newFileName);
-      });
-    } else {
-      deferred.resolve(newFileName);
+      await appendFile(newFileName, content);
     }
 
-    return deferred.promise;
+    return newFileName;
   }
 
-  public openFilesInEditor(fileNames: string[]): Q.Promise<TextEditor>[] {
-    return fileNames.map(fileName => {
-      const deferred: Q.Deferred<TextEditor> = Q.defer<TextEditor>();
-      const stats = fs.statSync(fileName);
+  public openFilesInEditor(fileNames: string[]): Promise<TextEditor>[] {
+    return fileNames.map(async fileName => {
+      const stats = (await fsStat(fileName)) as fs.Stats;
 
       if (stats.isDirectory()) {
         window.showInformationMessage(
           'This file is already a directory. Try a different name.'
         );
-        deferred.resolve();
-        return deferred.promise;
+        return;
       }
 
-      workspace.openTextDocument(fileName).then(textDocument => {
-        if (!textDocument) {
-          deferred.reject(new Error('Could not open file!'));
-          return;
-        }
+      const textDocument = await workspace.openTextDocument(fileName);
+      if (!textDocument) {
+        throw new Error('Could not open file!');
+      }
 
-        window.showTextDocument(textDocument).then(editor => {
-          if (!editor) {
-            deferred.reject(new Error('Could not show document!'));
-            return;
-          }
+      const editor = window.showTextDocument(textDocument);
+      if (!editor) {
+        throw new Error('Could not show document!');
+      }
 
-          deferred.resolve(editor);
-        });
-      });
-
-      return deferred.promise;
+      return editor;
     });
   }
 
