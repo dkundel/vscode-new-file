@@ -17,6 +17,8 @@ import * as braces from 'braces';
 
 const debug = Debug('vscode-new-file');
 
+type PathName = string;
+
 export interface NewFileSettings {
   showPathRelativeTo: 'root' | 'project' | 'none';
   relativeTo: 'root' | 'project' | 'file';
@@ -24,6 +26,8 @@ export interface NewFileSettings {
   defaultFileExtension: string;
   defaultBaseFileName: string;
   expandBraces: boolean;
+  fileTemplates: { [extension: string]: PathName };
+  useFileTemplates: boolean;
 }
 
 export class FileController {
@@ -40,7 +44,9 @@ export class FileController {
       rootDirectory: config.get('rootDirectory', this.homedir()),
       defaultFileExtension: config.get('defaultFileExtension', '.ts'),
       defaultBaseFileName: config.get('defaultBaseFileName', 'newFile'),
-      expandBraces: config.get('expandBraces', false)
+      expandBraces: config.get('expandBraces', false),
+      fileTemplates: config.get('fileTemplates', {}),
+      useFileTemplates: config.get('useFileTemplates', true)
     };
 
     const showFullPath = config.get('showFullPath') as boolean | undefined;
@@ -184,12 +190,22 @@ export class FileController {
   public createFile(newFileName: string): Q.Promise<string> {
     const deferred: Q.Deferred<string> = Q.defer<string>();
     let dirname: string = path.dirname(newFileName);
+    let extension: string = path.extname(newFileName);
     let fileExists: boolean = fs.existsSync(newFileName);
 
     if (!fileExists) {
       mkdirp.sync(dirname);
 
-      fs.appendFile(newFileName, '', err => {
+      let content = '';
+      let templatePath = this.settings.fileTemplates[extension];
+      if (this.settings.useFileTemplates && templatePath !== undefined) {
+        content = fs.readFileSync(
+          path.resolve(this.settings.rootDirectory, templatePath),
+          'utf8'
+        );
+      }
+
+      fs.appendFile(newFileName, content, err => {
         if (err) {
           deferred.reject(err);
           return;
