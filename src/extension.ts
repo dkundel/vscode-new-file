@@ -8,41 +8,46 @@ const debug = Debug('vscode-new-file');
 export function activate(context: ExtensionContext) {
   debug('Your extension "vscode-new-file" is now active!');
 
-  let disposable = commands.registerCommand('newFile.createNewFile', () => {
-    const File = new FileController().readSettings();
+  let disposable = commands.registerCommand(
+    'newFile.createNewFile',
+    async () => {
+      const File = new FileController().readSettings();
 
-    File.determineRoot()
-      .then(root => File.getDefaultFileValue(root))
-      .then(fileName => File.showFileNameDialog(fileName))
-      .then(fileName => File.createFiles(fileName))
-      .then(File.openFilesInEditor)
-      .catch(err => {
+      try {
+        let root = await File.determineRoot();
+        let defaultFileName = await File.getDefaultFileValue(root);
+        let userFilePath = await File.showFileNameDialog(defaultFileName);
+        let createdFiles = await File.createFiles(userFilePath);
+        await File.openFilesInEditor(createdFiles);
+      } catch (err) {
         if (err.message) {
           window.showErrorMessage(err.message);
         }
-      });
-  });
+      }
+    }
+  );
 
   context.subscriptions.push(disposable);
 
   let disposableDeprecated = commands.registerCommand(
     'extension.createNewFile',
-    () => {
+    async () => {
       window.showWarningMessage(
         'You are using a deprecated event. Please switch your keyboard shortcut to use "newFile.createNewFile"'
       );
       const File = new FileController().readSettings();
 
-      File.determineRoot()
-        .then(root => File.getDefaultFileValue(root))
-        .then(fileName => File.showFileNameDialog(fileName))
-        .then(fileName => File.createFiles(fileName))
-        .then(File.openFilesInEditor)
-        .catch(err => {
-          if (err.message) {
-            window.showErrorMessage(err.message);
-          }
-        });
+      try {
+        let root = await File.determineRoot();
+        let defaultFileName = await File.getDefaultFileValue(root);
+        let userFilePath = await File.showFileNameDialog(defaultFileName);
+        let createdFiles = await File.createFiles(userFilePath);
+        await File.openFilesInEditor(createdFiles);
+      } catch (err) {
+        if (err.message) {
+          window.showErrorMessage(err.message);
+        }
+      }
     }
   );
 
@@ -50,23 +55,24 @@ export function activate(context: ExtensionContext) {
 
   let disposableExplorerEntry = commands.registerCommand(
     'newFile.createFromExplorer',
-    file => {
+    async file => {
       if (!file || !file.path) {
         return;
       }
 
       const File = new FileController().readSettings();
 
-      File.getRootFromExplorerPath(file.path)
-        .then(root => File.getDefaultFileValue(root))
-        .then(fileName => File.showFileNameDialog(fileName, true))
-        .then(File.createFile)
-        .then(fileName => File.createFiles(fileName))
-        .catch(err => {
-          if (err.message) {
-            window.showErrorMessage(err.message);
-          }
-        });
+      try {
+        let root = await File.getRootFromExplorerPath(file.path);
+        let defaultFileName = await File.getDefaultFileValue(root);
+        let userFilePath = await File.showFileNameDialog(defaultFileName, true);
+        let createdFiles = await File.createFiles(userFilePath);
+        await File.openFilesInEditor(createdFiles);
+      } catch (err) {
+        if (err.message) {
+          window.showErrorMessage(err.message);
+        }
+      }
     }
   );
 }
