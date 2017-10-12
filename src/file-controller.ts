@@ -141,10 +141,14 @@ export class FileController {
     } else if (this.settings.showPathRelativeTo === 'project') {
       question += ' (Relative to project root)';
     }
-
+    const selectionBoundsForFileName = [
+       defaultFileValue.lastIndexOf("/")+1,
+       defaultFileValue.lastIndexOf(".")
+    ];
     let selectedFilePath = await window.showInputBox({
       prompt: question,
-      value: defaultFileValue
+      value: defaultFileValue,
+      valueSelection: selectionBoundsForFileName
     });
     if (selectedFilePath === null || typeof selectedFilePath === 'undefined') {
       throw undefined;
