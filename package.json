@@ -11,7 +11,7 @@
   "license": "MIT",
   "publisher": "dkundel",
   "engines": {
-    "vscode": "^1.0.0"
+    "vscode": "^1.12.0"
   },
   "categories": ["Other"],
   "bugs": {
