@@ -56,9 +56,9 @@ export class FileController {
         };
 
         const showFullPath = config.get("showFullPath") as boolean | undefined;
-        if (showFullPath) {
+        if (showFullPath !== undefined) {
             window.showInformationMessage(
-                'You are using a deprecated option "showFullPath". Switch instead to "showFullPathRelativeTo"'
+                'You are using a deprecated option "showFullPath". Switch instead to "showPathRelativeTo"'
             );
             this.settings.showPathRelativeTo = "root";
         }
