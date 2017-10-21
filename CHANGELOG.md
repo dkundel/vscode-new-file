@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.2.0] - 2017-10-21
+### Added
+- Added TSLint, Prettier and linting rules to the project for easier contributing
+- Added new contributors to README
+
+### Changed
+- New File dialog now selects on the filename by default. Thanks @thechriswalker [#27](https://github.com/dkundel/vscode-new-file/pull/27)
+- Deprecation message for `showFullPath` shows now correctly. Thanks @Telokis [#28](https://github.com/dkundel/vscode-new-file/pull/28)
+
 ## [3.1.1] - 2017-07-17
 ### Changed
 - Fixed wrong setting name in package.json
