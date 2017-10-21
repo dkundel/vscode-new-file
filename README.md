@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/dkundel/vscode-new-file.svg?branch=master)](https://travis-ci.org/dkundel/vscode-new-file)
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
 
 ![logo](images/logo-300x.png)
 # Advanced New File - Visual Studio Code Extension
@@ -78,8 +78,8 @@ or take any responsibility in case of lost data.
 Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| [<img src="https://avatars0.githubusercontent.com/u/1184341?v=4" width="100px;"/><br /><sub>Carl Henderson</sub>](https://github.com/chuckhendo)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=chuckhendo "Code") | [<img src="https://avatars1.githubusercontent.com/u/551712?v=4" width="100px;"/><br /><sub>Chris Walker</sub>](http://thechriswalker.github.com/)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=thechriswalker "Code") | [<img src="https://avatars2.githubusercontent.com/u/6382729?v=4" width="100px;"/><br /><sub>Telokis</sub>](https://github.com/Telokis)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=Telokis "Code") |
-| :---: | :---: | :---: |
+| [<img src="https://avatars0.githubusercontent.com/u/1184341?v=4" width="100px;"/><br /><sub>Carl Henderson</sub>](https://github.com/chuckhendo)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=chuckhendo "Code") | [<img src="https://avatars1.githubusercontent.com/u/551712?v=4" width="100px;"/><br /><sub>Chris Walker</sub>](http://thechriswalker.github.com/)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=thechriswalker "Code") | [<img src="https://avatars2.githubusercontent.com/u/6382729?v=4" width="100px;"/><br /><sub>Telokis</sub>](https://github.com/Telokis)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=Telokis "Code") | [<img src="https://avatars2.githubusercontent.com/u/2301202?v=4" width="100px;"/><br /><sub>Patrick Hulce</sub>](http://patrickhulce.com)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=patrickhulce "Code") |
+| :---: | :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
