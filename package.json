@@ -13,7 +13,9 @@
   "engines": {
     "vscode": "^1.12.0"
   },
-  "categories": ["Other"],
+  "categories": [
+    "Other"
+  ],
   "bugs": {
     "url": "https://github.com/dkundel/vscode-new-file/issues"
   },
@@ -33,35 +35,38 @@
       "properties": {
         "newFile.showPathRelativeTo": {
           "type": "string",
-          "enum": ["root", "project", "none"],
+          "enum": [
+            "root",
+            "project",
+            "none"
+          ],
           "default": "root",
-          "description":
-            "Let's you configure relative to what the path should be shown. 'root' is the equivalent of showing the whole URL base don the configured root."
+          "description": "Let's you configure relative to what the path should be shown. 'root' is the equivalent of showing the whole URL base don the configured root."
         },
         "newFile.showFullPath": {
           "type": "boolean",
           "default": false,
-          "description":
-            "[DEPRECATED] Use newFile.showPathRelativeTo: none instead."
+          "description": "[DEPRECATED] Use newFile.showPathRelativeTo: none instead."
         },
         "newFile.relativeTo": {
           "type": "string",
-          "enum": ["file", "project", "root"],
+          "enum": [
+            "file",
+            "project",
+            "root"
+          ],
           "default": "file",
-          "description":
-            "Whether the entered path should be treated relative to the existing 'project', the currently selected 'file' or specified 'root'. If set to 'root' you need to set the 'rootDirectory' setting."
+          "description": "Whether the entered path should be treated relative to the existing 'project', the currently selected 'file' or specified 'root'. If set to 'root' you need to set the 'rootDirectory' setting."
         },
         "newFile.rootDirectory": {
           "type": "string",
           "default": "~",
-          "description":
-            "Only used when 'relativeTo' is set to 'root'. Used as the root for creating new files."
+          "description": "Only used when 'relativeTo' is set to 'root'. Used as the root for creating new files."
         },
         "newFile.defaultFileExtension": {
           "type": "string",
           "default": ".ts",
-          "description":
-            "Default file extension to be used when no file is open."
+          "description": "Default file extension to be used when no file is open."
         },
         "newFile.defaultBaseFileName": {
           "type": "string",
@@ -71,20 +76,17 @@
         "newFile.expandBraces": {
           "type": "boolean",
           "default": false,
-          "description":
-            "Whether braces should be expanded to multiple paths (such as {test1,test2}.js creating two files, test1.js and test2.js"
+          "description": "Whether braces should be expanded to multiple paths (such as {test1,test2}.js creating two files, test1.js and test2.js"
         },
         "newFile.fileTemplates": {
           "type": "object",
           "default": {},
-          "description":
-            "Object of mappings from file extension to path for template file. The paths can be relative to the 'rootDirectory' or absolute paths."
+          "description": "Object of mappings from file extension to path for template file. The paths can be relative to the 'rootDirectory' or absolute paths."
         },
         "newFile.useFileTemplates": {
           "type": "boolean",
           "default": true,
-          "description":
-            "If enabled it will look up template files in newFile.fileTemplates for file creation."
+          "description": "If enabled it will look up template files in newFile.fileTemplates for file creation."
         }
       }
     },
@@ -125,6 +127,7 @@
     "@types/mockery": "^1.4.29",
     "@types/node": "^7.0.18",
     "@types/rimraf": "^0.0.28",
+    "all-contributors-cli": "^4.5.1",
     "mocha": "^3.4.1",
     "mockery": "^1.4.0",
     "rimraf": "^2.4.4",
