@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/dkundel/vscode-new-file.svg?branch=master)](https://travis-ci.org/dkundel/vscode-new-file)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 ![logo](images/logo-300x.png)
 # Advanced New File - Visual Studio Code Extension
@@ -8,7 +9,7 @@ Before using the extension please make sure to read the [Disclaimer](#Disclaimer
 
 > Inspired by [Scott Kuroda]()'s [AdvancedNewFile](https://github.com/skuroda/Sublime-AdvancedNewFile) for Sublime.
 
-# How to use
+## How to use
 
 ![demo](images/demo.gif)
 
@@ -21,7 +22,7 @@ Before using the extension please make sure to read the [Disclaimer](#Disclaimer
 
 4. Happy Coding! :)  
 
-# Configuration
+## Configuration
 
 You can configure the default behavior through various settings in your `settings.json`:
 
@@ -47,7 +48,7 @@ You can also set a new keyboard shortcut for the command in `keybindings.json`:
 ]
 ```
 
-# How to contribute
+## How to contribute
 
 1. Download source code and install dependencies
 ```
@@ -61,24 +62,28 @@ code .
 4. Choose `Launch Tests` to run the tests.
 5. Submit a PR.
 
-# Backlog
+## Backlog
 
   - Add additional tests
 
-# Disclaimer
+## Disclaimer
 
 **Important:** This extension due to the nature of it's purpose will create
 files on your hard drive and if necessary create the respective folder structure.
 While it should not override any files during this process, I'm not giving any guarantees
 or take any responsibility in case of lost data.
 
-# Contributors
+## Contributors
 
-- [Dominik Kundel](https://github.com/dkundel)
-- [Patrick Hulce](https://github.com/patrickhulce)
-- [Sarbbottam Bandyopadhyay](https://github.com/sarbbottam)
-- [Carl Henderson](https://github.com/chuckhendo)
+Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
-# License
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+| [<img src="https://avatars0.githubusercontent.com/u/1184341?v=4" width="100px;"/><br /><sub>Carl Henderson</sub>](https://github.com/chuckhendo)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=chuckhendo "Code") |
+| :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
+
+## License
 
 MIT
