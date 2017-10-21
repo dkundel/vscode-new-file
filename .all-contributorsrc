@@ -63,6 +63,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "lengk",
+      "name": "Harry Coultas Blum",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/5440566?v=4",
+      "profile": "https://yoked.io",
+      "contributions": [
+        "bug"
+      ]
     }
   ]
 }
