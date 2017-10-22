@@ -43,11 +43,6 @@
                     "default": "root",
                     "description": "Let's you configure relative to what the path should be shown. 'root' is the equivalent of showing the whole URL base don the configured root."
                 },
-                "newFile.showFullPath": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "[DEPRECATED] Use newFile.showPathRelativeTo: none instead."
-                },
                 "newFile.relativeTo": {
                     "type": "string",
                     "enum": [
