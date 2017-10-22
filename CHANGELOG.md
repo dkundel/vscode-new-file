@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.2.1] - 2017-10-22
+### Changed
+- Fixed unnecessary deprecation warning. Thanks @davidkpiano [#30](https://github.com/dkundel/vscode-new-file/pull/30)
+
 ## [3.2.0] - 2017-10-21
 ### Added
 - Added TSLint, Prettier and linting rules to the project for easier contributing
