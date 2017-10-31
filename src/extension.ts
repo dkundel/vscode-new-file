@@ -20,7 +20,7 @@ export function activate(context: ExtensionContext) {
         const createdFiles = await File.createFiles(userFilePath);
         await File.openFilesInEditor(createdFiles);
       } catch (err) {
-        if (err.message) {
+        if (err && err.message) {
           window.showErrorMessage(err.message);
         }
       }
@@ -44,7 +44,7 @@ export function activate(context: ExtensionContext) {
         const createdFiles = await File.createFiles(userFilePath);
         await File.openFilesInEditor(createdFiles);
       } catch (err) {
-        if (err.message) {
+        if (err && err.message) {
           window.showErrorMessage(err.message);
         }
       }
@@ -72,7 +72,7 @@ export function activate(context: ExtensionContext) {
         const createdFiles = await File.createFiles(userFilePath);
         await File.openFilesInEditor(createdFiles);
       } catch (err) {
-        if (err.message) {
+        if (err && err.message) {
           window.showErrorMessage(err.message);
         }
       }
