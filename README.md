@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/dkundel/vscode-new-file.svg?branch=master)](https://travis-ci.org/dkundel/vscode-new-file)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors)
 
 ![logo](images/logo-300x.png)
 # Advanced New File - Visual Studio Code Extension
@@ -8,7 +9,7 @@ Before using the extension please make sure to read the [Disclaimer](#Disclaimer
 
 > Inspired by [Scott Kuroda]()'s [AdvancedNewFile](https://github.com/skuroda/Sublime-AdvancedNewFile) for Sublime.
 
-# How to use
+## How to use
 
 ![demo](images/demo.gif)
 
@@ -21,7 +22,7 @@ Before using the extension please make sure to read the [Disclaimer](#Disclaimer
 
 4. Happy Coding! :)  
 
-# Configuration
+## Configuration
 
 You can configure the default behavior through various settings in your `settings.json`:
 
@@ -47,7 +48,7 @@ You can also set a new keyboard shortcut for the command in `keybindings.json`:
 ]
 ```
 
-# How to contribute
+## How to contribute
 
 1. Download source code and install dependencies
 ```
@@ -61,24 +62,29 @@ code .
 4. Choose `Launch Tests` to run the tests.
 5. Submit a PR.
 
-# Backlog
+## Backlog
 
   - Add additional tests
 
-# Disclaimer
+## Disclaimer
 
 **Important:** This extension due to the nature of it's purpose will create
 files on your hard drive and if necessary create the respective folder structure.
 While it should not override any files during this process, I'm not giving any guarantees
 or take any responsibility in case of lost data.
 
-# Contributors
+## Contributors
 
-- [Dominik Kundel](https://github.com/dkundel)
-- [Patrick Hulce](https://github.com/patrickhulce)
-- [Sarbbottam Bandyopadhyay](https://github.com/sarbbottam)
-- [Carl Henderson](https://github.com/chuckhendo)
+Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
-# License
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+| [<img src="https://avatars0.githubusercontent.com/u/1184341?v=4" width="100px;"/><br /><sub>Carl Henderson</sub>](https://github.com/chuckhendo)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=chuckhendo "Code") | [<img src="https://avatars1.githubusercontent.com/u/551712?v=4" width="100px;"/><br /><sub>Chris Walker</sub>](http://thechriswalker.github.com/)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=thechriswalker "Code") | [<img src="https://avatars2.githubusercontent.com/u/6382729?v=4" width="100px;"/><br /><sub>Telokis</sub>](https://github.com/Telokis)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=Telokis "Code") | [<img src="https://avatars2.githubusercontent.com/u/2301202?v=4" width="100px;"/><br /><sub>Patrick Hulce</sub>](http://patrickhulce.com)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=patrickhulce "Code") [🤔](#ideas-patrickhulce "Ideas, Planning, & Feedback") | [<img src="https://avatars2.githubusercontent.com/u/949380?v=4" width="100px;"/><br /><sub>Sarbbottam Bandyopadhyay</sub>](https://sarbbottam.github.io/)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=sarbbottam "Code") [🤔](#ideas-sarbbottam "Ideas, Planning, & Feedback") [🐛](https://github.com/dkundel/vscode-new-file/issues?q=author%3Asarbbottam "Bug reports") | [<img src="https://avatars3.githubusercontent.com/u/10362398?v=4" width="100px;"/><br /><sub>Kian Ostad</sub>](http://kianostad.com)<br />[🤔](#ideas-okian "Ideas, Planning, & Feedback") | [<img src="https://avatars1.githubusercontent.com/u/5440566?v=4" width="100px;"/><br /><sub>Harry Coultas Blum</sub>](https://yoked.io)<br />[🐛](https://github.com/dkundel/vscode-new-file/issues?q=author%3Alengk "Bug reports") |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [<img src="https://avatars2.githubusercontent.com/u/1093738?v=4" width="100px;"/><br /><sub>David Khourshid</sub>](https://github.com/davidkpiano)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=davidkpiano "Code") |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
+
+## License
 
 MIT

@@ -1,0 +1,86 @@
+{
+  "projectName": "vscode-new-file",
+  "projectOwner": "dkundel",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "chuckhendo",
+      "name": "Carl Henderson",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1184341?v=4",
+      "profile": "https://github.com/chuckhendo",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "thechriswalker",
+      "name": "Chris Walker",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/551712?v=4",
+      "profile": "http://thechriswalker.github.com/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Telokis",
+      "name": "Telokis",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/6382729?v=4",
+      "profile": "https://github.com/Telokis",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "patrickhulce",
+      "name": "Patrick Hulce",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/2301202?v=4",
+      "profile": "http://patrickhulce.com",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "sarbbottam",
+      "name": "Sarbbottam Bandyopadhyay",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/949380?v=4",
+      "profile": "https://sarbbottam.github.io/",
+      "contributions": [
+        "code",
+        "ideas",
+        "bug"
+      ]
+    },
+    {
+      "login": "okian",
+      "name": "Kian Ostad",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/10362398?v=4",
+      "profile": "http://kianostad.com",
+      "contributions": [
+        "ideas"
+      ]
+    },
+    {
+      "login": "lengk",
+      "name": "Harry Coultas Blum",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/5440566?v=4",
+      "profile": "https://yoked.io",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "davidkpiano",
+      "name": "David Khourshid",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1093738?v=4",
+      "profile": "https://github.com/davidkpiano",
+      "contributions": [
+        "code"
+      ]
+    }
+  ]
+}
