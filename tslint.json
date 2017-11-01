@@ -1,7 +1,7 @@
 {
   "extends": ["tslint:latest", "tslint-config-prettier", "tslint-plugin-prettier"],
   "rules": {
-    "prettier": [true, { "singleQuote": true }],
+    "prettier": [true, { "singleQuote": true, "trailingComma": "es5" }],
     "no-implicit-dependencies": false,
     "interface-name": false
   }

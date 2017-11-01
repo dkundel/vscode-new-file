@@ -5,7 +5,7 @@ import {
   QuickPickOptions,
   TextEditor,
   window,
-  workspace
+  workspace,
 } from 'vscode';
 
 import * as braces from 'braces';
@@ -52,7 +52,7 @@ export class FileController {
       relativeTo: config.get('relativeTo', 'file'),
       rootDirectory: config.get('rootDirectory', this.homedir()),
       showPathRelativeTo: config.get('showPathRelativeTo', 'root'),
-      useFileTemplates: config.get('useFileTemplates', true)
+      useFileTemplates: config.get('useFileTemplates', true),
     };
 
     const showFullPath = config.get('showFullPath') as boolean | undefined;
@@ -143,12 +143,12 @@ export class FileController {
     }
     const selectionBoundsForFileName: [number, number] = [
       defaultFileValue.lastIndexOf(path.sep) + 1,
-      defaultFileValue.lastIndexOf('.')
+      defaultFileValue.lastIndexOf('.'),
     ];
     let selectedFilePath = await window.showInputBox({
       prompt: question,
       value: defaultFileValue,
-      valueSelection: selectionBoundsForFileName
+      valueSelection: selectionBoundsForFileName,
     });
     if (selectedFilePath === null || typeof selectedFilePath === 'undefined') {
       throw undefined;

@@ -7,6 +7,6 @@
     "out": true // set this to false to include "out" folder in search results
   },
 
-  "prettier.trailingComma": "none",
+  "prettier.trailingComma": "es5",
   "prettier.singleQuote": true
 }
