@@ -4,6 +4,8 @@
 ![logo](images/logo-300x.png)
 # Advanced New File - Visual Studio Code Extension
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/dkundel/vscode-new-file.svg)](https://greenkeeper.io/)
+
 Making the creation of a new file even easier. Specify the name of the file on creation and if you define a path that doesn't exist yet the folders will be created.
 Before using the extension please make sure to read the [Disclaimer](#Disclaimer).
 
