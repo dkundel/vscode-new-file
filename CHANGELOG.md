@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.2.2] - 2017-11-04
+### Changed
+- Fixed "Cannot read property 'message' of undefined" prompt. Thanks @Telokis [#31](https://github.com/dkundel/vscode-new-file/issues/31)
+- Using correct path separator for Windows. Thanks @Telokis [#32](https://github.com/dkundel/vscode-new-file/issues/32)
+
 ## [3.2.1] - 2017-10-22
 ### Changed
 - Fixed unnecessary deprecation warning. Thanks @davidkpiano [#30](https://github.com/dkundel/vscode-new-file/pull/30)
