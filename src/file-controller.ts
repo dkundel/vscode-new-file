@@ -4,6 +4,7 @@ import {
   QuickPickItem,
   QuickPickOptions,
   TextEditor,
+  Uri,
   window,
   workspace,
 } from 'vscode';
@@ -42,7 +43,8 @@ export class FileController {
   private rootPath: string;
 
   public readSettings(): FileController {
-    const config = workspace.getConfiguration('newFile');
+    const currentUri = this.getUriOfCurrentFile();
+    const config = workspace.getConfiguration('newFile', currentUri);
 
     this.settings = {
       defaultBaseFileName: config.get('defaultBaseFileName', 'newFile'),
@@ -255,6 +257,11 @@ export class FileController {
     }
 
     return path.resolve(root, filePath);
+  }
+
+  private getUriOfCurrentFile(): Uri | undefined {
+    const editor = window.activeTextEditor;
+    return editor ? editor.document.uri : undefined;
   }
 
   private homedir(): string {
