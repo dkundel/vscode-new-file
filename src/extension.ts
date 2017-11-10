@@ -60,10 +60,10 @@ export function activate(context: ExtensionContext) {
         return;
       }
 
-      const File = new FileController().readSettings();
+      const File = new FileController().readSettings(file);
 
       try {
-        const root = await File.getRootFromExplorerPath(file.path);
+        const root = await File.getRootFromExplorerPath(file.fsPath);
         const defaultFileName = await File.getDefaultFileValue(root);
         const userFilePath = await File.showFileNameDialog(
           defaultFileName,
