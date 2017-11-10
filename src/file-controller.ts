@@ -45,8 +45,8 @@ export class FileController {
   private currentUri?: Uri;
   private workspaceRoot?: string;
 
-  public readSettings(): FileController {
-    this.currentUri = this.getUriOfCurrentFile();
+  public readSettings(currentUri?: Uri): FileController {
+    this.currentUri = currentUri || this.getUriOfCurrentFile();
     const config = workspace.getConfiguration('newFile', this.currentUri);
 
     this.settings = {
@@ -285,7 +285,11 @@ export class FileController {
       return workspace.getWorkspaceFolder(currentUri);
     }
 
-    return window.showWorkspaceFolderPick();
+    const selectedWorkspaceFolder = await window.showWorkspaceFolderPick();
+    if (selectedWorkspaceFolder !== undefined) {
+      this.readSettings(selectedWorkspaceFolder.uri);
+    }
+    return selectedWorkspaceFolder;
   }
 
   private getRootPathFromWorkspace(
