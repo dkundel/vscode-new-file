@@ -14,8 +14,8 @@ export function activate(context: ExtensionContext) {
       const File = new FileController().readSettings();
 
       try {
-        const root = File.determineRoot();
-        const defaultFileName = File.getDefaultFileValue(root);
+        const root = await File.determineRoot();
+        const defaultFileName = await File.getDefaultFileValue(root);
         const userFilePath = await File.showFileNameDialog(defaultFileName);
         const createdFiles = await File.createFiles(userFilePath);
         await File.openFilesInEditor(createdFiles);
@@ -38,8 +38,8 @@ export function activate(context: ExtensionContext) {
       const File = new FileController().readSettings();
 
       try {
-        const root = File.determineRoot();
-        const defaultFileName = File.getDefaultFileValue(root);
+        const root = await File.determineRoot();
+        const defaultFileName = await File.getDefaultFileValue(root);
         const userFilePath = await File.showFileNameDialog(defaultFileName);
         const createdFiles = await File.createFiles(userFilePath);
         await File.openFilesInEditor(createdFiles);
@@ -64,7 +64,7 @@ export function activate(context: ExtensionContext) {
 
       try {
         const root = await File.getRootFromExplorerPath(file.path);
-        const defaultFileName = File.getDefaultFileValue(root);
+        const defaultFileName = await File.getDefaultFileValue(root);
         const userFilePath = await File.showFileNameDialog(
           defaultFileName,
           true
