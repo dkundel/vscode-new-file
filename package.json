@@ -41,7 +41,7 @@
             "none"
           ],
           "default": "root",
-          "description": "Let's you configure relative to what the path should be shown. 'root' is the equivalent of showing the whole URL base don the configured root.",
+          "description": "Lets you configure what the path should be shown relative to. 'root' is the equivalent of showing the whole URL based on the configured root.",
           "scope": "resource"
         },
         "newFile.relativeTo": {
