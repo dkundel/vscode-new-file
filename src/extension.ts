@@ -29,30 +29,6 @@ export function activate(context: ExtensionContext) {
 
   context.subscriptions.push(disposable);
 
-  const disposableDeprecated = commands.registerCommand(
-    'extension.createNewFile',
-    async () => {
-      window.showWarningMessage(
-        'You are using a deprecated event. Please switch your keyboard shortcut to use "newFile.createNewFile"'
-      );
-      const File = new FileController().readSettings();
-
-      try {
-        const root = await File.determineRoot();
-        const defaultFileName = await File.getDefaultFileValue(root);
-        const userFilePath = await File.showFileNameDialog(defaultFileName);
-        const createdFiles = await File.createFiles(userFilePath);
-        await File.openFilesInEditor(createdFiles);
-      } catch (err) {
-        if (err && err.message) {
-          window.showErrorMessage(err.message);
-        }
-      }
-    }
-  );
-
-  context.subscriptions.push(disposableDeprecated);
-
   const disposableExplorerEntry = commands.registerCommand(
     'newFile.createFromExplorer',
     async file => {
