@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.0] - 2017-11-12
+### Changed
+- Move to using the new multi-folder workspace API instead `workspace.rootPath`
+
+### Removed
+- Fully removed support for `extension.newFile` command
+
 ## [3.2.2] - 2017-11-04
 ### Changed
 - Fixed "Cannot read property 'message' of undefined" prompt. Thanks @Telokis [#31](https://github.com/dkundel/vscode-new-file/issues/31)
