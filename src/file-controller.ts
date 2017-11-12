@@ -4,8 +4,10 @@ import {
   QuickPickItem,
   QuickPickOptions,
   TextEditor,
+  Uri,
   window,
   workspace,
+  WorkspaceFolder,
 } from 'vscode';
 
 import * as braces from 'braces';
@@ -40,9 +42,12 @@ export class FileController {
   private settings: NewFileSettings;
 
   private rootPath: string;
+  private currentUri?: Uri;
+  private workspaceRoot?: string;
 
-  public readSettings(): FileController {
-    const config = workspace.getConfiguration('newFile');
+  public readSettings(currentUri?: Uri): FileController {
+    this.currentUri = currentUri || this.getUriOfCurrentFile();
+    const config = workspace.getConfiguration('newFile', this.currentUri);
 
     this.settings = {
       defaultBaseFileName: config.get('defaultBaseFileName', 'newFile'),
@@ -78,16 +83,18 @@ export class FileController {
     return dir;
   }
 
-  public determineRoot(): string {
+  public async determineRoot(): Promise<string> {
     let root: string;
 
     if (this.settings.relativeTo === 'project') {
-      root = workspace.rootPath;
+      this.workspaceRoot = await this.determineWorkspaceRoot();
+      root = this.workspaceRoot;
     } else if (this.settings.relativeTo === 'file') {
       if (window.activeTextEditor) {
         root = path.dirname(window.activeTextEditor.document.fileName);
-      } else if (workspace.rootPath) {
-        root = workspace.rootPath;
+      } else {
+        this.workspaceRoot = await this.determineWorkspaceRoot();
+        root = this.workspaceRoot;
       }
     }
 
@@ -104,7 +111,7 @@ export class FileController {
     return root;
   }
 
-  public getDefaultFileValue(root: string): string {
+  public async getDefaultFileValue(root: string): Promise<string> {
     const newFileName = this.settings.defaultBaseFileName;
     const defaultExtension = this.settings.defaultFileExtension;
 
@@ -116,7 +123,10 @@ export class FileController {
     if (this.settings.showPathRelativeTo !== 'none') {
       const fullPath = path.join(root, `${newFileName}${ext}`);
       if (this.settings.showPathRelativeTo === 'project') {
-        return fullPath.replace(workspace.rootPath + path.sep, '');
+        if (!this.workspaceRoot) {
+          this.workspaceRoot = await this.determineWorkspaceRoot();
+        }
+        return fullPath.replace(this.workspaceRoot + path.sep, '');
       }
       return fullPath;
     } else {
@@ -160,8 +170,11 @@ export class FileController {
       } else {
         if (this.settings.showPathRelativeTo !== 'none') {
           if (this.settings.showPathRelativeTo === 'project') {
+            if (!this.workspaceRoot) {
+              this.workspaceRoot = await this.determineWorkspaceRoot();
+            }
             selectedFilePath = path.resolve(
-              workspace.rootPath,
+              this.workspaceRoot,
               selectedFilePath
             );
           }
@@ -233,14 +246,17 @@ export class FileController {
     });
   }
 
-  private normalizeDotPath(filePath: string): string {
+  private async normalizeDotPath(filePath: string): Promise<string> {
     const currentFileName: string = window.activeTextEditor
       ? window.activeTextEditor.document.fileName
       : '';
+    if (!this.workspaceRoot) {
+      this.workspaceRoot = await this.determineWorkspaceRoot();
+    }
     const directory =
       currentFileName.length > 0
         ? path.dirname(currentFileName)
-        : workspace.rootPath;
+        : this.workspaceRoot;
 
     return path.resolve(directory, filePath);
   }
@@ -255,6 +271,52 @@ export class FileController {
     }
 
     return path.resolve(root, filePath);
+  }
+
+  private getUriOfCurrentFile(): Uri | undefined {
+    const editor = window.activeTextEditor;
+    return editor ? editor.document.uri : undefined;
+  }
+
+  private async determineWorkspaceFolder(
+    currentUri: Uri
+  ): Promise<WorkspaceFolder | undefined> {
+    if (currentUri) {
+      return workspace.getWorkspaceFolder(currentUri);
+    }
+
+    const selectedWorkspaceFolder = await window.showWorkspaceFolderPick();
+    if (selectedWorkspaceFolder !== undefined) {
+      this.readSettings(selectedWorkspaceFolder.uri);
+    }
+    return selectedWorkspaceFolder;
+  }
+
+  private getRootPathFromWorkspace(
+    currentWorkspace?: WorkspaceFolder
+  ): string | undefined | null {
+    if (typeof currentWorkspace === 'undefined') {
+      return undefined;
+    }
+
+    if (currentWorkspace.uri.scheme !== 'file') {
+      return null;
+    }
+
+    return currentWorkspace.uri.fsPath;
+  }
+
+  private async determineWorkspaceRoot(): Promise<string | undefined> {
+    const currentWorkspace = await this.determineWorkspaceFolder(
+      this.currentUri
+    );
+    const workspaceRoot = this.getRootPathFromWorkspace(currentWorkspace);
+    if (workspaceRoot === null) {
+      throw new Error(
+        'This extension currently only support file system workspaces.'
+      );
+    }
+    return workspaceRoot;
   }
 
   private homedir(): string {

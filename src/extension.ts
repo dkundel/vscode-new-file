@@ -14,8 +14,8 @@ export function activate(context: ExtensionContext) {
       const File = new FileController().readSettings();
 
       try {
-        const root = File.determineRoot();
-        const defaultFileName = File.getDefaultFileValue(root);
+        const root = await File.determineRoot();
+        const defaultFileName = await File.getDefaultFileValue(root);
         const userFilePath = await File.showFileNameDialog(defaultFileName);
         const createdFiles = await File.createFiles(userFilePath);
         await File.openFilesInEditor(createdFiles);
@@ -29,30 +29,6 @@ export function activate(context: ExtensionContext) {
 
   context.subscriptions.push(disposable);
 
-  const disposableDeprecated = commands.registerCommand(
-    'extension.createNewFile',
-    async () => {
-      window.showWarningMessage(
-        'You are using a deprecated event. Please switch your keyboard shortcut to use "newFile.createNewFile"'
-      );
-      const File = new FileController().readSettings();
-
-      try {
-        const root = File.determineRoot();
-        const defaultFileName = File.getDefaultFileValue(root);
-        const userFilePath = await File.showFileNameDialog(defaultFileName);
-        const createdFiles = await File.createFiles(userFilePath);
-        await File.openFilesInEditor(createdFiles);
-      } catch (err) {
-        if (err && err.message) {
-          window.showErrorMessage(err.message);
-        }
-      }
-    }
-  );
-
-  context.subscriptions.push(disposableDeprecated);
-
   const disposableExplorerEntry = commands.registerCommand(
     'newFile.createFromExplorer',
     async file => {
@@ -60,11 +36,11 @@ export function activate(context: ExtensionContext) {
         return;
       }
 
-      const File = new FileController().readSettings();
+      const File = new FileController().readSettings(file);
 
       try {
-        const root = await File.getRootFromExplorerPath(file.path);
-        const defaultFileName = File.getDefaultFileValue(root);
+        const root = await File.getRootFromExplorerPath(file.fsPath);
+        const defaultFileName = await File.getDefaultFileValue(root);
         const userFilePath = await File.showFileNameDialog(
           defaultFileName,
           true
