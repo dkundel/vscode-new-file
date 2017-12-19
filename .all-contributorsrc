@@ -81,6 +81,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "ngocphamm",
+      "name": "Ngoc Pham",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/395123?v=4",
+      "profile": "https://www.ngocpham.info/",
+      "contributions": [
+        "bug"
+      ]
     }
   ]
 }
