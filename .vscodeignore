@@ -10,3 +10,4 @@ vsc-extension-quickstart.md
 tsd.json
 *.vsix
 releases/**
+.vscode-test/
