@@ -1,5 +1,8 @@
 [![Build Status](https://travis-ci.org/dkundel/vscode-new-file.svg?branch=master)](https://travis-ci.org/dkundel/vscode-new-file)
 [![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors)
+[![Version](https://vsmarketplacebadge.apphb.com/version/dkundel.vscode-new-file.svg)](https://marketplace.visualstudio.com/items?itemName=dkundel.vscode-new-file)
+[![Installs](https://vsmarketplacebadge.apphb.com/installs/dkundel.vscode-new-file.svg)](https://marketplace.visualstudio.com/items?itemName=dkundel.vscode-new-file)
+[![Ratings](https://vsmarketplacebadge.apphb.com/rating/dkundel.vscode-new-file.svg)](https://marketplace.visualstudio.com/items?itemName=dkundel.vscode-new-file)
 
 ![logo](images/logo-300x.png)
 # Advanced New File - Visual Studio Code Extension
