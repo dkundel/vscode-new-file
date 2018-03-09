@@ -37,7 +37,6 @@ You can configure the default behavior through various settings in your `setting
   "newFile.rootDirectory": "~",
   "newFile.showPathRelativeTo": "root", // "project" or "none"
   "newFile.expandBraces": false // setting to true will allow for creating multiple files such as `new-folder/{file1,file2}.js`
-  "workbench.quickOpen.closeOnFocusLost": false // setting to true, quick open should close automatically once it loses focus
 }
 ```
 
@@ -51,6 +50,10 @@ You can also set a new keyboard shortcut for the command in `keybindings.json`:
   }
 ]
 ```
+
+## Frequently Asked Questions (FAQ)
+
+To show a way to not close the input box when removing focus from VSCode, you need to add `"workbench.quickOpen.closeOnFocusLost": false` in your settings file. Setting it to true, Quick Open should close automatically once it loses focus.
 
 ## How to contribute
 
