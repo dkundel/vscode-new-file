@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.2] - 2018-03-12
+### Added
+- Added a new FAQ section detailing how to avoid auto-closing the new file dialog on focus change. Thanks @deadcoder0904 [#47]
+
 ## [4.0.1] - 2017-12-19
 ### Changed
 - Remove `.vscode-test` folder from the extension package. Thanks for raising this @ngocphamm [#44](https://github.com/dkundel/vscode-new-file/issues/44)
