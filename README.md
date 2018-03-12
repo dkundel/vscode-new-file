@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/dkundel/vscode-new-file.svg?branch=master)](https://travis-ci.org/dkundel/vscode-new-file)
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors)
 [![Version](https://vsmarketplacebadge.apphb.com/version/dkundel.vscode-new-file.svg)](https://marketplace.visualstudio.com/items?itemName=dkundel.vscode-new-file)
 [![Installs](https://vsmarketplacebadge.apphb.com/installs/dkundel.vscode-new-file.svg)](https://marketplace.visualstudio.com/items?itemName=dkundel.vscode-new-file)
 [![Ratings](https://vsmarketplacebadge.apphb.com/rating/dkundel.vscode-new-file.svg)](https://marketplace.visualstudio.com/items?itemName=dkundel.vscode-new-file)
@@ -51,6 +51,11 @@ You can also set a new keyboard shortcut for the command in `keybindings.json`:
 ]
 ```
 
+## Frequently Asked Questions (FAQ)
+
+### The dialog closes everytime I switch windows. Is this intended?
+This is the default behavior of VS Code. To not close the input box when removing focus from VSCode, you need to add `"workbench.quickOpen.closeOnFocusLost": false` in your settings file. Setting it to true will result in the dialogs like the "Quick Open" to automatically once it loses focus.
+
 ## How to contribute
 
 1. Download source code and install dependencies
@@ -83,7 +88,7 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 | [<img src="https://avatars0.githubusercontent.com/u/1184341?v=4" width="100px;"/><br /><sub>Carl Henderson</sub>](https://github.com/chuckhendo)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=chuckhendo "Code") | [<img src="https://avatars1.githubusercontent.com/u/551712?v=4" width="100px;"/><br /><sub>Chris Walker</sub>](http://thechriswalker.github.com/)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=thechriswalker "Code") | [<img src="https://avatars2.githubusercontent.com/u/6382729?v=4" width="100px;"/><br /><sub>Telokis</sub>](https://github.com/Telokis)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=Telokis "Code") | [<img src="https://avatars2.githubusercontent.com/u/2301202?v=4" width="100px;"/><br /><sub>Patrick Hulce</sub>](http://patrickhulce.com)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=patrickhulce "Code") [🤔](#ideas-patrickhulce "Ideas, Planning, & Feedback") | [<img src="https://avatars2.githubusercontent.com/u/949380?v=4" width="100px;"/><br /><sub>Sarbbottam Bandyopadhyay</sub>](https://sarbbottam.github.io/)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=sarbbottam "Code") [🤔](#ideas-sarbbottam "Ideas, Planning, & Feedback") [🐛](https://github.com/dkundel/vscode-new-file/issues?q=author%3Asarbbottam "Bug reports") | [<img src="https://avatars3.githubusercontent.com/u/10362398?v=4" width="100px;"/><br /><sub>Kian Ostad</sub>](http://kianostad.com)<br />[🤔](#ideas-okian "Ideas, Planning, & Feedback") | [<img src="https://avatars1.githubusercontent.com/u/5440566?v=4" width="100px;"/><br /><sub>Harry Coultas Blum</sub>](https://yoked.io)<br />[🐛](https://github.com/dkundel/vscode-new-file/issues?q=author%3Alengk "Bug reports") |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| [<img src="https://avatars2.githubusercontent.com/u/1093738?v=4" width="100px;"/><br /><sub>David Khourshid</sub>](https://github.com/davidkpiano)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=davidkpiano "Code") | [<img src="https://avatars0.githubusercontent.com/u/395123?v=4" width="100px;"/><br /><sub>Ngoc Pham</sub>](https://www.ngocpham.info/)<br />[🐛](https://github.com/dkundel/vscode-new-file/issues?q=author%3Angocphamm "Bug reports") |
+| [<img src="https://avatars2.githubusercontent.com/u/1093738?v=4" width="100px;"/><br /><sub>David Khourshid</sub>](https://github.com/davidkpiano)<br />[💻](https://github.com/dkundel/vscode-new-file/commits?author=davidkpiano "Code") | [<img src="https://avatars0.githubusercontent.com/u/395123?v=4" width="100px;"/><br /><sub>Ngoc Pham</sub>](https://www.ngocpham.info/)<br />[🐛](https://github.com/dkundel/vscode-new-file/issues?q=author%3Angocphamm "Bug reports") | [<img src="https://avatars1.githubusercontent.com/u/16436270?v=4" width="100px;"/><br /><sub>Akshay Kadam</sub>](https://twitter.com/deadcoder0904)<br />[📖](https://github.com/dkundel/vscode-new-file/commits?author=deadcoder0904 "Documentation") |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
