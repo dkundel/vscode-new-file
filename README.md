@@ -54,7 +54,7 @@ You can also set a new keyboard shortcut for the command in `keybindings.json`:
 ## Frequently Asked Questions (FAQ)
 
 ### The dialog closes everytime I switch windows. Is this intended?
-This is the default behavior of VS Code. To not close the input box when removing focus from VSCode, you need to add `"workbench.quickOpen.closeOnFocusLost": false` in your settings file. Setting it to true will result in the dialogs like the "Quick Open" to automatically once it loses focus.
+This is the default behavior of VS Code. To not close the input box when removing focus from VSCode, you need to add `"workbench.quickOpen.closeOnFocusLost": false` in your settings file. Setting it to true will result in the dialogs like the "Quick Open" to automatically close once it loses focus.
 
 ## How to contribute
 
