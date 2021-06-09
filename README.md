@@ -23,7 +23,7 @@ Before using the extension please make sure to read the [Disclaimer](#Disclaimer
 
 3. An empty file will be created and the cursor will be placed into the new file.
 
-4. Happy Coding! :)  
+4. Happy Coding! :)
 
 ## Configuration
 
@@ -37,6 +37,7 @@ You can configure the default behavior through various settings in your `setting
   "newFile.rootDirectory": "~",
   "newFile.showPathRelativeTo": "root", // "project" or "none"
   "newFile.expandBraces": false // setting to true will allow for creating multiple files such as `new-folder/{file1,file2}.js`
+  "newFile.useCurrentFileExtension": true //choose if you want to use current file extension automatically
 }
 ```
 

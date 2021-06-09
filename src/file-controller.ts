@@ -35,6 +35,7 @@ export interface NewFileSettings {
   relativeTo: 'file' | 'project' | 'root';
   rootDirectory: string;
   showPathRelativeTo: 'none' | 'project' | 'root';
+  useCurrentFileExtension: boolean;
   useFileTemplates: boolean;
 }
 
@@ -57,6 +58,7 @@ export class FileController {
       relativeTo: config.get('relativeTo', 'file'),
       rootDirectory: config.get('rootDirectory', this.homedir()),
       showPathRelativeTo: config.get('showPathRelativeTo', 'root'),
+      useCurrentFileExtension: config.get('useCurrentFileExtension', true),
       useFileTemplates: config.get('useFileTemplates', true),
     };
 
@@ -114,11 +116,14 @@ export class FileController {
   public async getDefaultFileValue(root: string): Promise<string> {
     const newFileName = this.settings.defaultBaseFileName;
     const defaultExtension = this.settings.defaultFileExtension;
+    const useCurrentFileExtension = this.settings.useCurrentFileExtension;
 
     const currentFileName: string = window.activeTextEditor
       ? window.activeTextEditor.document.fileName
       : '';
-    const ext: string = path.extname(currentFileName) || defaultExtension;
+    const ext: string = useCurrentFileExtension
+      ? path.extname(currentFileName)
+      : defaultExtension;
 
     if (this.settings.showPathRelativeTo !== 'none') {
       const fullPath = path.join(root, `${newFileName}${ext}`);
