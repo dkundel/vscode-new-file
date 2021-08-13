@@ -75,7 +75,7 @@ export class FileController {
     let dir = path.dirname(filePath);
     const stats = (await fsStat(dir)) as fs.Stats;
     if (!stats.isDirectory()) {
-      dir = path.resolve(dir, '..');
+      dir = this.resolveWithFolder(dir, '..');
     }
 
     this.rootPath = dir;
@@ -173,10 +173,7 @@ export class FileController {
             if (!this.workspaceRoot) {
               this.workspaceRoot = await this.determineWorkspaceRoot();
             }
-            selectedFilePath = path.resolve(
-              this.workspaceRoot,
-              selectedFilePath
-            );
+            selectedFilePath = this.resolveWithFolder(this.workspaceRoot, selectedFilePath)
           }
           return selectedFilePath;
         } else {
@@ -199,6 +196,13 @@ export class FileController {
   }
 
   public async createFile(newFileName: string): Promise<string> {
+    if (newFileName.endsWith('\\') || newFileName.endsWith('/')) {
+      // this is a folder
+      await mkdir(newFileName)
+
+      return newFileName
+    }
+
     const dirname: string = path.dirname(newFileName);
     const extension: string = path.extname(newFileName);
     const doesFileExist: boolean = await fileExists(newFileName);
@@ -210,7 +214,7 @@ export class FileController {
       const templatePath = this.settings.fileTemplates[extension];
       if (this.settings.useFileTemplates && templatePath !== undefined) {
         content = (await readFile(
-          path.resolve(this.settings.rootDirectory, templatePath),
+          this.resolveWithFolder(this.settings.rootDirectory, templatePath),
           'utf8'
         )) as string;
       }
@@ -227,7 +231,7 @@ export class FileController {
 
       if (stats.isDirectory()) {
         window.showInformationMessage(
-          'This file is already a directory. Try a different name.'
+          'This is a directory.'
         );
         return;
       }
@@ -258,7 +262,7 @@ export class FileController {
         ? path.dirname(currentFileName)
         : this.workspaceRoot;
 
-    return path.resolve(directory, filePath);
+    return this.resolveWithFolder(directory, filePath);
   }
 
   private getFullPath(root: string, filePath: string): string {
@@ -270,7 +274,13 @@ export class FileController {
       return path.join(this.homedir(), filePath.substr(1));
     }
 
-    return path.resolve(root, filePath);
+    return this.resolveWithFolder(root, filePath);
+  }
+
+  private resolveWithFolder(root: string, filePath: string): string {
+    var fullPath = path.join(root, filePath)
+
+    return fullPath;
   }
 
   private getUriOfCurrentFile(): Uri | undefined {
